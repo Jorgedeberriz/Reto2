@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="MyPersonalBankAPI:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MyPersonalBankAPI_jar</output-path>
+    <root id="archive" name="MyPersonalBankAPI.jar">
+      <element id="module-output" name="MyPersonalBankAPI" />
+    </root>
+  </artifact>
+</component>
