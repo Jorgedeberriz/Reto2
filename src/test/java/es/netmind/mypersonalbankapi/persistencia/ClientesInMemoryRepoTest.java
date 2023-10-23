@@ -1,7 +1,8 @@
-package es.netmind.mypersonalbankapi.modelos.clientes;
+package es.netmind.mypersonalbankapi.persistencia;
 
-import es.netmind.mypersonalbankapi.controladores.ClientesController;
-import es.netmind.mypersonalbankapi.persistencia.ClientesInMemoryRepo;
+import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
+import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
+import es.netmind.mypersonalbankapi.modelos.clientes.Personal;
 import es.netmind.mypersonalbankapi.exceptions.*;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-class ClienteTest {
-     @Test
+class ClientesInMemoryRepoTest {
+ @Test
     void cuandoClienteCorrecto_entoncesAltaOk() throws Exception {
         Cliente cli = new Personal(4, "Nombre nuevo", "nc@dxc.com", "Calle Nueva 1", LocalDate.now(), true, false, "87654321A");
         ClientesInMemoryRepo.getInstance().addClient(cli);
@@ -72,6 +73,5 @@ class ClienteTest {
             ClientesInMemoryRepo.getInstance().addClient(cli);
         });
     }
-
 
 }
