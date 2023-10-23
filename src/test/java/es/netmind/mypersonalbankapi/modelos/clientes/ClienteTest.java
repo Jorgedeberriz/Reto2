@@ -1,8 +1,6 @@
-package es.netmind.mypersonalbankapi.test;
+package es.netmind.mypersonalbankapi.modelos.clientes;
 
 import es.netmind.mypersonalbankapi.controladores.ClientesController;
-import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
-import es.netmind.mypersonalbankapi.modelos.clientes.Personal;
 import es.netmind.mypersonalbankapi.persistencia.ClientesInMemoryRepo;
 import es.netmind.mypersonalbankapi.exceptions.*;
 import org.junit.jupiter.api.Test;
