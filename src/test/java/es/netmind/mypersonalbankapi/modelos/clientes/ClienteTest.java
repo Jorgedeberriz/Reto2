@@ -5,22 +5,20 @@ import es.netmind.mypersonalbankapi.persistencia.ClientesInMemoryRepo;
 import es.netmind.mypersonalbankapi.exceptions.*;
 import org.junit.jupiter.api.Test;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ClienteTest {
-    @Test
-    void altaCliente_Ok() throws Exception {
-        Cliente cli = new Personal(4, "Nuevo cliente", "nc@dxc.com", "Calle Nueva 1", LocalDate.now(), true, false, "87654321A");
-        String[] args = {"personal", "Nuevo cliente", "nc@dxc.com", "Calle Nueva 1", String.valueOf(LocalDate.now()), "87654321A"};
-        ClientesController.add(args);
+     @Test
+    void cuandoClienteCorrecto_entoncesAltaOk() throws Exception {
+        Cliente cli = new Personal(4, "Nombre nuevo", "nc@dxc.com", "Calle Nueva 1", LocalDate.now(), true, false, "87654321A");
+        ClientesInMemoryRepo.getInstance().addClient(cli);
         assertThat(ClientesInMemoryRepo.getInstance().getClientById(4), samePropertyValuesAs(cli));
     }
-
 
     @Test
     void dadoCliente_cuandoFechaIncorrecta_entoncesClienteException() throws Exception {
