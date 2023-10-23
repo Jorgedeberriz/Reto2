@@ -21,17 +21,17 @@ class ClienteTest {
         assertThat(ClientesInMemoryRepo.getInstance().getClientById(4), samePropertyValuesAs(cli));
     }
 
-    /*
+
     @Test
     void dadoCliente_cuandoFechaIncorrecta_entoncesClienteException() throws Exception {
-        String fechaString = "00-00-0000";
+        String fechaString = "2023-10-22";
         LocalDate fechaLocalDate = LocalDate.parse(fechaString);
         Cliente cli = new Personal(4, "Nuevo cliente", "ncdxc.com", "Calle Nueva 1", fechaLocalDate, true, false, "87654321A");
-        assertThrows(DateTimeException.class, () -> {
+        assertThrows(ClienteException.class, () -> {
             ClientesInMemoryRepo.getInstance().addClient(cli);
         });
     }
-    */
+
 
     @Test
     void dadoCliente_cuandoNombreIncorrecto_entoncesClienteException() throws Exception {

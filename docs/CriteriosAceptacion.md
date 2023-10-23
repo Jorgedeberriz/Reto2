@@ -19,7 +19,7 @@ Criterios de aceptación:
 
 Casos de pruebas:
 - Alta cliente con datos correctos
-- El usuario, cuando quiere dar de alta un cliente con fecha de alta con formato incorrecto da un DateTimeException
+- El usuario, cuando quiere dar de alta un cliente con fecha de alta con formato incorrecto da un ClienteException
 - El usuario, cuando quiere dar de alta un cliente con nombre incorrecto le da un ClienteException
 - El usuario, cuando quiere dar de alta un cliente con mail incorrecto le da un ClienteException
 - El usuario, cuando quiere dar de alta un cliente con direccion incorrecta le da un ClienteException
