@@ -34,7 +34,7 @@ public class ClienteDBRepository implements IClienteDBRepository {
                 ResultSet rs = stmt.executeQuery("SELECT * FROM cliente c WHERE c.id='" + id + "' LIMIT 1")
         ) {
             if (rs.next()) {
-                if (rs.getString("dtype") == "Empresa") {
+                if (rs.getString("dtype").equals("Empresa")) {
                     cliente = new Empresa(
                             rs.getInt("id"),
                             rs.getString("nombre"),
@@ -46,7 +46,7 @@ public class ClienteDBRepository implements IClienteDBRepository {
                             rs.getString("cif"),
                             rs.getString("unidades_de_negocio").split("\\-")
                     );
-                } else if (rs.getString("dtype") == "Personal") {
+                } else if (rs.getString("dtype").equals("Personal")) {
                     cliente = new Personal(
                             rs.getInt("id"),
                             rs.getString("nombre"),
@@ -55,7 +55,7 @@ public class ClienteDBRepository implements IClienteDBRepository {
                             rs.getDate("alta").toLocalDate(),
                             rs.getBoolean("activo"),
                             rs.getBoolean("moroso"),
-                            rs.getString("nif")
+                            rs.getString("dni")
                     );
                 }
             }

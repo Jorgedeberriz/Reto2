@@ -15,12 +15,17 @@ public class ClientesController {
     private static IClientesRepo clientesRepo = ClientesInMemoryRepo.getInstance();
     private static IClienteDBRepository clientesRepoDB;
 
+    static {
+        try {
+            clientesRepoDB = new ClienteDBRepository();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private static ICuentasRepo cuentasRepo = CuentasInMemoryRepo.getInstance();
     private static IPrestamosRepo prestamosRepo = PrestamosInMemoryRepo.getInstance();
 
-    public ClientesController() throws Exception {
-        clientesRepoDB = new ClienteDBRepository();
-    }
 
     public static void mostrarLista() {
         System.out.println("\nLista de clientes:");
