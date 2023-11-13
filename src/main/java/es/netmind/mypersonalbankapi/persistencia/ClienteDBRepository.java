@@ -51,7 +51,9 @@ public class ClienteDBRepository implements IClienteDBRepository {
             stmt.setString(7, nuevoCliente.getNombre());
             if (nuevoCliente instanceof Empresa) {
                 stmt.setString(8, ((Empresa) nuevoCliente).getCif());
-                stmt.setString(9, ((Empresa) nuevoCliente).getUnidadesNegocio().toString());
+                if (((Empresa) nuevoCliente).getUnidadesNegocio() != null) {
+                    stmt.setString(9, ((Empresa) nuevoCliente).getUnidadesNegocio().toString());
+                }
             } else if (nuevoCliente instanceof Personal) {
                 stmt.setString(10, ((Personal) nuevoCliente).getDni());
             }
