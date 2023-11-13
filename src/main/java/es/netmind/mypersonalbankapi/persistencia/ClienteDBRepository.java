@@ -37,8 +37,7 @@ public class ClienteDBRepository implements IClienteDBRepository {
                 if (rs.getString("dtype").equals("Empresa")) {
                     String[] unidades = null;
                     if (rs.getString("unidades_de_negocio") != null) {
-                        unidades = rs.getString("unidades_de_negocio").split("\\-");
-
+                        unidades = rs.getString("unidades_de_negocio").split("\\-");  //Teniendo en cuenta que las unidades se separararian por guion
                     }
                     cliente = new Empresa(
                             rs.getInt("id"),
