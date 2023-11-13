@@ -14,7 +14,7 @@ public interface IClienteDBRepository {
 
     public List<Cliente> getClientes(String iniciales) throws Exception;
 
-    public Cliente insertUsuario(Cliente nuevoCliente) throws Exception;
+    public Cliente insertCliente(Cliente nuevoCliente) throws Exception;
 
     public Cliente updateCliente(Usuario unCliente) throws Exception;
 

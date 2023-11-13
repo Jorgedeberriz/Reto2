@@ -2,6 +2,8 @@ package es.netmind.mypersonalbankapi.persistencia;
 
 import es.netmind.mypersonalbankapi.exceptions.ClienteException;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
+import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
+import es.netmind.mypersonalbankapi.modelos.clientes.Personal;
 import es.netmind.mypersonalbankapi.modelos.usuario.Usuario;
 import es.netmind.mypersonalbankapi.properties.PropertyValues;
 
@@ -33,20 +35,26 @@ public class ClienteDBRepository implements IClienteDBRepository {
     }
 
     @Override
-    public Cliente insertUsuario(Cliente nuevoCliente) throws Exception {
-                String sql = "INSERT INTO usuario values (?,NULL,?,?,?,?,?,?,?,?,?)";
+    public Cliente insertCliente(Cliente nuevoCliente) throws Exception {
+        String sql = "INSERT INTO usuario values (?,NULL,?,?,?,?,?,?,?,?,?)";
 
         try (
                 Connection conn = DriverManager.getConnection(db_url);
                 PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ) {
             stmt.setString(1, nuevoCliente.getClass().getName());
-            stmt.setInt(3, nuevoCliente.isActivo() ? 1 : 0);
-            stmt.setString(4,nuevoCliente.getAlta().toString());
-            stmt.setString(5,nuevoCliente.getDireccion());
-            
-
-
+            stmt.setInt(2, nuevoCliente.isActivo() ? 1 : 0);
+            stmt.setString(3, nuevoCliente.getAlta().toString());
+            stmt.setString(4, nuevoCliente.getDireccion());
+            stmt.setString(5, nuevoCliente.getEmail());
+            stmt.setInt(6, nuevoCliente.isMoroso() ? 1 : 0);
+            stmt.setString(7, nuevoCliente.getNombre());
+            if (nuevoCliente instanceof Empresa) {
+                stmt.setString(8, ((Empresa) nuevoCliente).getCif());
+                stmt.setString(9, ((Empresa) nuevoCliente).getUnidadesNegocio().toString());
+            } else if (nuevoCliente instanceof Personal) {
+                stmt.setString(10, ((Personal) nuevoCliente).getDni());
+            }
 
 
             int rows = stmt.executeUpdate();
@@ -55,7 +63,7 @@ public class ClienteDBRepository implements IClienteDBRepository {
             if (genKeys.next()) {
                 nuevoCliente.setId(genKeys.getInt(2));
             } else {
-                throw new SQLException("Usuario creado erroneamente!!!");
+                throw new SQLException("Cliente creado erroneamente!!!");
             }
 
         } catch (SQLException e) {
