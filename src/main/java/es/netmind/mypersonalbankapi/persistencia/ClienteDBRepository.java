@@ -35,6 +35,11 @@ public class ClienteDBRepository implements IClienteDBRepository {
         ) {
             if (rs.next()) {
                 if (rs.getString("dtype").equals("Empresa")) {
+                    String[] unidades = null;
+                    if (rs.getString("unidades_de_negocio") != null) {
+                        unidades = rs.getString("unidades_de_negocio").split("\\-");
+
+                    }
                     cliente = new Empresa(
                             rs.getInt("id"),
                             rs.getString("nombre"),
@@ -44,7 +49,7 @@ public class ClienteDBRepository implements IClienteDBRepository {
                             rs.getBoolean("activo"),
                             rs.getBoolean("moroso"),
                             rs.getString("cif"),
-                            rs.getString("unidades_de_negocio").split("\\-")
+                            unidades
                     );
                 } else if (rs.getString("dtype").equals("Personal")) {
                     cliente = new Personal(
