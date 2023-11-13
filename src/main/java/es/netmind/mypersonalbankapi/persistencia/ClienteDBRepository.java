@@ -26,7 +26,46 @@ public class ClienteDBRepository implements IClienteDBRepository {
 
     @Override
     public Cliente getCliente(Integer id) throws ClienteException, Exception {
-        return null;
+        Cliente cliente = null;
+
+        try (
+                Connection conn = DriverManager.getConnection(db_url);
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM cliente c WHERE c.id='" + id + "' LIMIT 1")
+        ) {
+            if (rs.next()) {
+                if (rs.getString("dtype") == "Empresa") {
+                    cliente = new Empresa(
+                            rs.getInt("id"),
+                            rs.getString("nombre"),
+                            rs.getString("email"),
+                            rs.getString("direccion"),
+                            rs.getDate("alta").toLocalDate(),
+                            rs.getBoolean("activo"),
+                            rs.getBoolean("moroso"),
+                            rs.getString("cif"),
+                            rs.getString("unidades_de_negocio").split("\\-")
+                    );
+                } else if (rs.getString("dtype") == "Personal") {
+                    cliente = new Personal(
+                            rs.getInt("id"),
+                            rs.getString("nombre"),
+                            rs.getString("email"),
+                            rs.getString("direccion"),
+                            rs.getDate("alta").toLocalDate(),
+                            rs.getBoolean("activo"),
+                            rs.getBoolean("moroso"),
+                            rs.getString("nif")
+                    );
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception(e);
+        }
+
+        return cliente;
     }
 
     @Override
@@ -43,7 +82,7 @@ public class ClienteDBRepository implements IClienteDBRepository {
                 PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ) {
             String[] classnameArray = nuevoCliente.getClass().getName().split("\\.");
-            String classname = classnameArray[classnameArray.length-1];
+            String classname = classnameArray[classnameArray.length - 1];
             stmt.setString(1, classname);
             stmt.setInt(2, nuevoCliente.isActivo() ? 1 : 0);
             stmt.setString(3, nuevoCliente.getAlta().toString());
@@ -55,7 +94,7 @@ public class ClienteDBRepository implements IClienteDBRepository {
                 stmt.setString(8, ((Empresa) nuevoCliente).getCif());
                 if (((Empresa) nuevoCliente).getUnidadesNegocio() != null) {
                     stmt.setString(9, ((Empresa) nuevoCliente).getUnidadesNegocio().toString());
-                }else stmt.setString(9, null);
+                } else stmt.setString(9, null);
                 stmt.setString(10, null);
             } else if (nuevoCliente instanceof Personal) {
                 stmt.setString(8, null);

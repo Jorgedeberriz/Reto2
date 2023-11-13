@@ -13,8 +13,14 @@ import java.util.List;
 public class ClientesController {
 
     private static IClientesRepo clientesRepo = ClientesInMemoryRepo.getInstance();
+    private static IClienteDBRepository clientesRepoDB;
+
     private static ICuentasRepo cuentasRepo = CuentasInMemoryRepo.getInstance();
     private static IPrestamosRepo prestamosRepo = PrestamosInMemoryRepo.getInstance();
+
+    public ClientesController() throws Exception {
+        clientesRepoDB = new ClienteDBRepository();
+    }
 
     public static void mostrarLista() {
         System.out.println("\nLista de clientes:");
@@ -54,7 +60,7 @@ public class ClientesController {
         System.out.println("───────────────────────────────────");
         try {
             Cliente cl = ClientesUtils.extractClientFromArgsForCreate(args);
-            clientesRepo.addClient(cl);
+            clientesRepoDB.insertCliente(cl);
             System.out.println("Cliente añadido: " + cl + " 🙂");
             mostrarLista();
         } catch (ClienteException e) {
