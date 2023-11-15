@@ -56,7 +56,7 @@ class ClientesControllerTest {
     @Test
     void altaClienteDB_Ok() {
         String[] args = {"personal", "Nuevo cliente", "nc@dxc.com", "Calle Nueva 1", String.valueOf(LocalDate.now()), "87654321A"};
-        ClientesController.add(args);
+        ClientesController.addDB(args);
         assertThat(outContent.toString(), containsString("Cliente añadido"));
     }
 
