@@ -22,7 +22,7 @@ class ClienteDBRepositoryTest {
 
     @Test
     void dadosClienteEmpresa_cuandoinsertarClienteEnDB_entoncesIdValido() throws Exception {
-        Cliente cliente = new Empresa(null, "nuevoClienteE", "nce@nce.com", "C/Nueva E", LocalDate.now(), true, false,"B12345678",null);
+        Cliente cliente = new Empresa(1, "nuevoClienteE", "nce@nce.com", "C/Nueva Empresa", LocalDate.now(), true, false,"B12345678",null);
 
         repo.insertCliente(cliente);
 
@@ -33,12 +33,19 @@ class ClienteDBRepositoryTest {
 
      @Test
     void dadosClientePersonal_cuandoinsertarClienteEnDB_entoncesIdValido() throws Exception {
-        Cliente cliente = new Personal(null, "nuevoClienteP", "ncp@ncp.com", "C/Nueva P", LocalDate.now(), true, false,"12345678B");
+        Cliente cliente = new Personal(null, "nuevoClienteP", "ncp@ncp.com", "C/Nueva Persona", LocalDate.now(), true, false,"12345678B");
 
         repo.insertCliente(cliente);
 
         System.out.println(cliente);
 
         assertThat(cliente.getId(), greaterThan(0));
+    }
+    @Test
+    void dadoCliente_cuandoMailIncorrecto_entoncesClienteException() throws Exception {
+        Cliente cli = new Personal(null, "Nombre", "ncdxc.com", "Calle Nueva 1", LocalDate.now(), true, false, "87654321A");
+        assertThrows(Exception.class, () -> {
+            repo.insertCliente(cli);
+        });
     }
 }

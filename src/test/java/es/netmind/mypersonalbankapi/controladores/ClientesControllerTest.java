@@ -59,7 +59,13 @@ class ClientesControllerTest {
         ClientesController.addDB(args);
         assertThat(outContent.toString(), containsString("Cliente añadido"));
     }
-
+    @Test
+    void altaClienteMailIncorrectoDB() throws Exception {
+        String[] args = {"Personal", "Nuevo Cliente", "ncdxc.com", "Calle Nueva", String.valueOf(LocalDate.now()), "87654321A"};
+        ClientesController.addDB(args);
+        System.out.println(outContent);
+        assertThat(outContent.toString(), containsString("Cliente NO válido"));
+    }
     @Test
     void dadoIdClientePersonal_cuandoRecuperarPorId_entoncesOk() throws Exception {
         Cliente ncliente =  repo.getCliente(1);
