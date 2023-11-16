@@ -10,6 +10,7 @@ import java.time.LocalDate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ClienteDBRepositoryTest {
@@ -47,5 +48,18 @@ class ClienteDBRepositoryTest {
         assertThrows(Exception.class, () -> {
             repo.insertCliente(cli);
         });
+    }
+    @Test
+    void dadoIdClientePersonal_cuandoRecuperarPorId_entoncesOk() throws Exception {
+        Cliente ncliente =  repo.getCliente(1);
+        System.out.println(ncliente);
+        assertThat(ncliente.getNombre(), is("Juan Juanez"));
+    }
+
+    @Test
+    void dadoIdClienteEmpresa_cuandoRecuperarPorId_entoncesOk() throws Exception {
+        Cliente ncliente =  repo.getCliente(3);
+        System.out.println(ncliente);
+        assertThat(ncliente.getNombre(), is("Servicios Informatico SL"));
     }
 }

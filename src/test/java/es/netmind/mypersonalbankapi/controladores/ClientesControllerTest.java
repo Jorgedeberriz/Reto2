@@ -66,19 +66,7 @@ class ClientesControllerTest {
         System.out.println(outContent);
         assertThat(outContent.toString(), containsString("Cliente NO válido"));
     }
-    @Test
-    void dadoIdClientePersonal_cuandoRecuperarPorId_entoncesOk() throws Exception {
-        Cliente ncliente =  repo.getCliente(1);
-        System.out.println(ncliente);
-        assertThat(ncliente.getNombre(), is("Juan Juanez"));
-    }
 
-    @Test
-    void dadoIdClienteEmpresa_cuandoRecuperarPorId_entoncesOk() throws Exception {
-        Cliente ncliente =  repo.getCliente(3);
-        System.out.println(ncliente);
-        assertThat(ncliente.getNombre(), is("Servicios Informatico SL"));
-    }
 
     @AfterEach
     public void restoreStreams() {
