@@ -36,33 +36,33 @@ class ClientesControllerTest {
         System.setErr(new PrintStream(errContent));
     }
 
-    @Test
-    void altaCliente_Ok() throws Exception {
-        Cliente cli = new Personal(4, "Nuevo cliente", "nc@dxc.com", "Calle Nueva 1", LocalDate.now(), true, false, "87654321A");
-        String[] args = {"personal", "Nuevo cliente", "nc@dxc.com", "Calle Nueva 1", String.valueOf(LocalDate.now()), "87654321A"};
-        ClientesController.add(args);
-        assertThat(ClientesInMemoryRepo.getInstance().getClientById(4), samePropertyValuesAs(cli));
-        assertThat(outContent.toString(), containsString("Cliente añadido"));
-    }
+    //@Test
+    //void altaCliente_Ok() throws Exception {
+    //    Cliente cli = new Personal(4, "Nuevo cliente", "nc@dxc.com", "Calle Nueva 1", LocalDate.now(), true, false, "87654321A");
+    //    String[] args = {"personal", "Nuevo cliente", "nc@dxc.com", "Calle Nueva 1", String.valueOf(LocalDate.now()), "87654321A"};
+    //    ClientesController.add(args);
+    //    assertThat(ClientesInMemoryRepo.getInstance().getClientById(4), samePropertyValuesAs(cli));
+    //    assertThat(outContent.toString(), containsString("Cliente añadido"));
+    //}
 
-    @Test
-    void altaClienteMailIncorrecto() throws Exception {
-        String[] args = {"Personal", "Nuevo Cliente", "ncdxc.com", "Calle Nueva", String.valueOf(LocalDate.now()), "87654321A"};
-        ClientesController.add(args);
-        System.out.println(outContent);
-        assertThat(outContent.toString(), containsString("Cliente NO válido"));
-    }
+    //@Test
+    //void altaClienteMailIncorrecto() throws Exception {
+    //    String[] args = {"Personal", "Nuevo Cliente", "ncdxc.com", "Calle Nueva", String.valueOf(LocalDate.now()), "87654321A"};
+    //    ClientesController.add(args);
+    //    System.out.println(outContent);
+    //    assertThat(outContent.toString(), containsString("Cliente NO válido"));
+    //}
 
     @Test
     void altaClienteDB_Ok() {
         String[] args = {"personal", "Nuevo cliente", "nc@dxc.com", "Calle Nueva 1", String.valueOf(LocalDate.now()), "87654321A"};
-        ClientesController.addDB(args);
+        ClientesController.add(args);
         assertThat(outContent.toString(), containsString("Cliente añadido"));
     }
     @Test
     void altaClienteMailIncorrectoDB() throws Exception {
         String[] args = {"Personal", "Nuevo Cliente", "ncdxc.com", "Calle Nueva", String.valueOf(LocalDate.now()), "87654321A"};
-        ClientesController.addDB(args);
+        ClientesController.add(args);
         System.out.println(outContent);
         assertThat(outContent.toString(), containsString("Cliente NO válido"));
     }

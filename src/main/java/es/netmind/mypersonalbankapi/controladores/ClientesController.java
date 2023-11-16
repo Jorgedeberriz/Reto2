@@ -65,24 +65,6 @@ public class ClientesController {
         System.out.println("───────────────────────────────────");
         try {
             Cliente cl = ClientesUtils.extractClientFromArgsForCreate(args);
-            clientesRepo.addClient(cl);
-            System.out.println("Cliente añadido: " + cl + " 🙂");
-            mostrarLista();
-        } catch (ClienteException e) {
-            System.out.println("Cliente NO válido 😞! \nCode: " + e.getCode());
-        } catch (DateTimeException e) {
-            System.out.println("⚠ LAS FECHAS DEBEN TENER EL FORMATO yyyy-mm-dd, por ejemplo 2023-12-01 ⚠");
-        } catch (Exception e) {
-            System.out.println("Oops ha habido un problema, inténtelo más tarde 😞!");
-            e.printStackTrace();
-        }
-
-    }
-    public static void addDB(String[] args) {
-        System.out.println("\nAñadiendo cliente");
-        System.out.println("───────────────────────────────────");
-        try {
-            Cliente cl = ClientesUtils.extractClientFromArgsForCreate(args);
             clientesRepoDB.insertCliente(cl);
             System.out.println("Cliente añadido: " + cl + " 🙂");
             mostrarLista();
