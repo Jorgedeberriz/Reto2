@@ -7,12 +7,15 @@ import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
 import es.netmind.mypersonalbankapi.modelos.clientes.Personal;
 import es.netmind.mypersonalbankapi.modelos.usuario.Usuario;
 import es.netmind.mypersonalbankapi.properties.PropertyValues;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.*;
 import java.util.List;
-
+@Getter
+@Setter
 public class ClienteDBRepository implements IClienteDBRepository {
-    private static String db_url = null;
+    private String db_url = null;
 
     public ClienteDBRepository() throws Exception {
         PropertyValues props = new PropertyValues();
