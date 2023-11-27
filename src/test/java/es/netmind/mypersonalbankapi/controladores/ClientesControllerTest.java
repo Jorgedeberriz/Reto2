@@ -30,6 +30,9 @@ class ClientesControllerTest {
     @Autowired
     private IClienteDBRepository repo;
 
+    @Autowired
+    private ClientesController clicon;
+
     /*@BeforeEach
     void sepUp() throws Exception {
         repo = new ClienteDBRepository();
@@ -62,13 +65,13 @@ class ClientesControllerTest {
     @Test
     void altaClienteDB_Ok() {
         String[] args = {"personal", "Nuevo cliente", "nc@dxc.com", "Calle Nueva 1", String.valueOf(LocalDate.now()), "87654321A"};
-        ClientesController.add(args);
+        clicon.add(args);
         assertThat(outContent.toString(), containsString("Cliente añadido"));
     }
     @Test
     void altaClienteMailIncorrectoDB() throws Exception {
         String[] args = {"Personal", "Nuevo Cliente", "ncdxc.com", "Calle Nueva", String.valueOf(LocalDate.now()), "87654321A"};
-        ClientesController.add(args);
+        clicon.add(args);
         System.out.println(outContent);
         assertThat(outContent.toString(), containsString("Cliente NO válido"));
     }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.List;
-@Controller
+@Component
 public class ClientesController {
 
     private static IClientesRepo clientesRepo = ClientesInMemoryRepo.getInstance();
