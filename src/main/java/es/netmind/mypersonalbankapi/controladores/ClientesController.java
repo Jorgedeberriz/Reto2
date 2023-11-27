@@ -5,23 +5,27 @@ import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
 import es.netmind.mypersonalbankapi.modelos.prestamos.Prestamo;
 import es.netmind.mypersonalbankapi.persistencia.*;
 import es.netmind.mypersonalbankapi.utils.ClientesUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.List;
-
+@Controller
 public class ClientesController {
 
     private static IClientesRepo clientesRepo = ClientesInMemoryRepo.getInstance();
-    private static IClienteDBRepository clientesRepoDB;
+    @Autowired
+    private IClienteDBRepository clientesRepoDB;
 
-    static {
-        try {
-            clientesRepoDB = new ClienteDBRepository();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+    //static {
+    //    try {
+    //        clientesRepoDB = new ClienteDBRepository();
+    //    } catch (Exception e) {
+    //        throw new RuntimeException(e);
+    //    }
+    //}
 
     private static ICuentasRepo cuentasRepo = CuentasInMemoryRepo.getInstance();
     private static IPrestamosRepo prestamosRepo = PrestamosInMemoryRepo.getInstance();
@@ -60,7 +64,7 @@ public class ClientesController {
 
     }
 
-    public static void add(String[] args) {
+    public void add(String[] args) {
         System.out.println("\nAñadiendo cliente");
         System.out.println("───────────────────────────────────");
         try {
