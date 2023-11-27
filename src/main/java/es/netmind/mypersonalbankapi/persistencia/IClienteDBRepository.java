@@ -20,5 +20,7 @@ public interface IClienteDBRepository {
 
     public boolean deleteCliente(Integer id) throws Exception;
 
+    public String getDb_url();
+
 
 }
