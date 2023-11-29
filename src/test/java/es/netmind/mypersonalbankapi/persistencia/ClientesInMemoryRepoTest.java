@@ -24,8 +24,8 @@ import static org.hamcrest.Matchers.*;
 @ContextConfiguration(classes = {SpringConfig.class})
 @ActiveProfiles("dev")
 class ClientesInMemoryRepoTest {
-    @Autowired
-    private ApplicationContext context;
+    //@Autowired
+    //private ApplicationContext context;
     @Autowired
     private IClientesRepo repo;
  /*@Test

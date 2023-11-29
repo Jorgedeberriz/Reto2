@@ -6,6 +6,7 @@ import es.netmind.mypersonalbankapi.modelos.prestamos.Prestamo;
 import es.netmind.mypersonalbankapi.persistencia.*;
 import es.netmind.mypersonalbankapi.utils.ClientesUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
@@ -13,6 +14,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.List;
 @Component
+
 public class ClientesController {
 
     private static IClientesRepo clientesRepo = ClientesInMemoryRepo.getInstance();
@@ -147,7 +149,6 @@ public class ClientesController {
             System.out.println("Oops ha habido un problema, inténtelo más tarde 😞!");
             e.printStackTrace();
         }
-
 
     }
 }
