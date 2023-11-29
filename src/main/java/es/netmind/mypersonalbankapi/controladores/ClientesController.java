@@ -18,6 +18,7 @@ import java.util.List;
 public class ClientesController {
 
     private static IClientesRepo clientesRepo = ClientesInMemoryRepo.getInstance();
+
     @Autowired
     private IClienteDBRepository clientesRepoDB;
 

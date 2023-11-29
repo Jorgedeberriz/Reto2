@@ -18,7 +18,7 @@ public class ReposConfig {
     String dbUrl;
 
     @Bean
-    @Profile("default")
+    @Profile({"default","dev"})
     public IClienteDBRepository getClienteDBRepository() throws Exception {
         ClienteDBRepository repo = new ClienteDBRepository();
         repo.setDb_url(dbUrl);
