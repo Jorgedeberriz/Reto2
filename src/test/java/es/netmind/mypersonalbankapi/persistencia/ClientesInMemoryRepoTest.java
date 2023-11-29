@@ -26,7 +26,8 @@ import static org.hamcrest.Matchers.*;
 class ClientesInMemoryRepoTest {
     @Autowired
     private IClientesRepo repo;
- @Test
+
+    @Test
     void cuandoClienteCorrecto_entoncesAltaOk() throws Exception {
         Cliente cli = new Personal(5, "Nombre nuevo", "nc@dxc.com", "Calle Nueva 1", LocalDate.now(), true, false, "87654321A");
         repo.addClient(cli);
