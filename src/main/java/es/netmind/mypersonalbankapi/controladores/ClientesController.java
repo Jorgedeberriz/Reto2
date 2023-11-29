@@ -19,8 +19,8 @@ public class ClientesController {
 
     private static IClientesRepo clientesRepo = ClientesInMemoryRepo.getInstance();
 
-    @Autowired
-    private IClienteDBRepository clientesRepoDB;
+    //@Autowired
+    //private IClienteDBRepository clientesRepoDB;
 
     //static {
     //    try {
@@ -72,7 +72,7 @@ public class ClientesController {
         System.out.println("───────────────────────────────────");
         try {
             Cliente cl = ClientesUtils.extractClientFromArgsForCreate(args);
-            clientesRepoDB.insertCliente(cl);
+            clientesRepo.addClient(cl);
             System.out.println("Cliente añadido: " + cl + " 🙂");
             mostrarLista();
         } catch (ClienteException e) {

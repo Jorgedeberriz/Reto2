@@ -5,7 +5,6 @@ import es.netmind.mypersonalbankapi.exceptions.ErrorCode;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
 import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
 import es.netmind.mypersonalbankapi.modelos.clientes.Personal;
-import es.netmind.mypersonalbankapi.modelos.usuario.Usuario;
 import es.netmind.mypersonalbankapi.properties.PropertyValues;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +13,7 @@ import java.sql.*;
 import java.util.List;
 @Getter
 @Setter
-public class ClienteDBRepository implements IClienteDBRepository {
+public class ClienteDBRepository implements IClientesRepo {
     private String db_url = null;
 
     public ClienteDBRepository() throws Exception {
@@ -24,12 +23,12 @@ public class ClienteDBRepository implements IClienteDBRepository {
 
 
     @Override
-    public boolean existeCliente(String email, String pass) throws Exception {
-        return false;
+    public List<Cliente> getAll() {
+        return null;
     }
 
     @Override
-    public Cliente getCliente(Integer id) throws ClienteException, Exception {
+    public Cliente getClientById(Integer id) throws ClienteException, Exception {
         Cliente cliente = null;
 
         try (
@@ -76,13 +75,9 @@ public class ClienteDBRepository implements IClienteDBRepository {
         return cliente;
     }
 
-    @Override
-    public List<Cliente> getClientes(String iniciales) throws Exception {
-        return null;
-    }
 
     @Override
-    public Cliente insertCliente(Cliente nuevoCliente) throws Exception {
+    public Cliente addClient(Cliente nuevoCliente) throws Exception {
         if (!nuevoCliente.validar()) {
             throw new ClienteException("Cliente no válido", ErrorCode.INVALIDCLIENT);
         } else {
@@ -134,12 +129,13 @@ public class ClienteDBRepository implements IClienteDBRepository {
     }
 
     @Override
-    public Cliente updateCliente(Usuario unCliente) throws Exception {
-        return null;
+    public boolean deleteClient(Cliente cliente) throws Exception {
+        return false;
     }
 
     @Override
-    public boolean deleteCliente(Integer id) throws Exception {
-        return false;
+    public Cliente updateClient(Cliente cliente) throws Exception {
+        return null;
     }
+
 }
