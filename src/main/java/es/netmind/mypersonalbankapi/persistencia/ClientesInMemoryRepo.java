@@ -23,6 +23,7 @@ public class ClientesInMemoryRepo implements IClientesRepo {
             clientes.add(new Personal(1, "Juan Juanez", "jj@j.com", "Calle JJ 1", LocalDate.now(), true, false, "12345678J"));
             clientes.add(new Personal(2, "Luisa Perez", "lp@l.com", "Calle LP 2", LocalDate.now(), true, false, "12345678L"));
             clientes.add(new Empresa(3, "Servicios Informatico SL", "si@s.com", "Calle SI 3", LocalDate.now(), true, false, "J12345678", new String[]{"Dev", "Marketing"}));
+            clientes.add(new Personal(4, "practica perfil", "jj@j.com", "Calle JJ 1", LocalDate.now(), true, false, "12345678J"));
 
         } catch (Exception e) {
             System.out.println("⚠ Error al crear clientes: " + e.getMessage());

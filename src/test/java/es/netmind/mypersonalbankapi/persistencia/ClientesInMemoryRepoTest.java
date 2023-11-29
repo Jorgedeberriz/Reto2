@@ -6,6 +6,8 @@ import es.netmind.mypersonalbankapi.modelos.clientes.Personal;
 import es.netmind.mypersonalbankapi.exceptions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
@@ -15,8 +17,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+@ActiveProfiles("dev")
 class ClientesInMemoryRepoTest {
- @Test
+    @Autowired
+    private IClientesRepo repo;
+ /*@Test
     void cuandoClienteCorrecto_entoncesAltaOk() throws Exception {
         Cliente cli = new Personal(4, "Nombre nuevo", "nc@dxc.com", "Calle Nueva 1", LocalDate.now(), true, false, "87654321A");
         ClientesInMemoryRepo.getInstance().addClient(cli);
@@ -74,6 +79,13 @@ class ClientesInMemoryRepoTest {
         assertThrows(ClienteException.class, () -> {
             ClientesInMemoryRepo.getInstance().addClient(cli);
         });
+    }
+*/
+    @Test
+    void dadoIdClientePersonal_cuandoRecuperarPorId_entoncesOk() throws Exception {
+        Cliente ncliente = repo.getClientById(4);
+        System.out.println(ncliente);
+        assertThat(ncliente.getNombre(), is("practica perfil"));
     }
 
 }

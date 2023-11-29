@@ -22,6 +22,7 @@ public class ReposConfig {
     public IClienteDBRepository getClienteDBRepository() throws Exception {
         ClienteDBRepository repo = new ClienteDBRepository();
         repo.setDb_url(dbUrl);
+        System.out.println("Entra perfil default");
         return repo;
     }
 
@@ -30,6 +31,7 @@ public class ReposConfig {
     public IClientesRepo getClientesInMemory() throws Exception {
         ClientesInMemoryRepo repo = new ClientesInMemoryRepo();
         //repo.setDb_url(dbUrl);
+        System.out.println("Entra perfil dev");
         return repo;
     }
 }
