@@ -5,11 +5,14 @@ import es.netmind.mypersonalbankapi.exceptions.ErrorCode;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
 import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
 import es.netmind.mypersonalbankapi.modelos.clientes.Personal;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+@Setter
+@Getter
 public class ClientesInMemoryRepo implements IClientesRepo {
     private static ClientesInMemoryRepo instance;
     private final static List<Cliente> clientes;
@@ -26,7 +29,7 @@ public class ClientesInMemoryRepo implements IClientesRepo {
         }
     }
 
-    private ClientesInMemoryRepo() {
+    public ClientesInMemoryRepo() {
     }
 
     public static ClientesInMemoryRepo getInstance() {

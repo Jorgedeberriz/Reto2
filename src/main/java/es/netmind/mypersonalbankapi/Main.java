@@ -27,7 +27,7 @@ public class Main {
 
     }
 
-    private static void procesarArgumentos(String[] args) {
+    private void procesarArgumentos(String[] args) {
         int argsLength = args.length;
         String arg0 = args[0].toLowerCase();
         String arg1 = args[1].toLowerCase();
