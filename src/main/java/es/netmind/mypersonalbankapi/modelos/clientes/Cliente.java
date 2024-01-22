@@ -27,6 +27,7 @@ public abstract class Cliente {
     private boolean moroso;
     @Transient
     private List<Cuenta> cuentas;
+
     @Transient
     private List<Prestamo> prestamos;
 

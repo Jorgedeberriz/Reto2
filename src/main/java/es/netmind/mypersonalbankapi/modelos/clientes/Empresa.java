@@ -2,7 +2,9 @@ package es.netmind.mypersonalbankapi.modelos.clientes;
 
 import lombok.*;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.OrderColumn;
 import java.time.LocalDate;
 import java.util.Arrays;
 @Getter
@@ -13,6 +15,8 @@ import java.util.Arrays;
 @Entity
 public class Empresa extends Cliente {
     private String cif;
+    @ElementCollection
+    @OrderColumn
     private String[] unidadesNegocio;
 
     public Empresa(Integer id, String nombre, String email, String direccion, LocalDate alta, boolean activo, boolean moroso, String cif, String[] unidadesNegocio) throws Exception{

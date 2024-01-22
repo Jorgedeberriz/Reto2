@@ -44,8 +44,9 @@ class ClienteJPARepositoryTest {
     }
 
     @Test
+    @Transactional
     void dadosClienteEmpresa_cuandoinsertarClienteEnDB_entoncesIdValido() throws Exception {
-        Cliente cliente = new Empresa(1, "nuevoClienteE", "nce@nce.com", "C/Nueva Empresa", LocalDate.now(), true, false, "B12345678", null);
+        Cliente cliente = new Empresa(null, "nuevoClienteE", "nce@nce.com", "C/Nueva Empresa", LocalDate.now(), true, false, "B12345678", null);
 
         repo.addClient(cliente);
 
