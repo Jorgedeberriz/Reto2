@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import({PropertiesConfig.class,ReposConfig.class})
 @ComponentScan(basePackages = {"es.netmind.mypersonalbankapi.controladores","es.netmind.mypersonalbankapi.persistencia"})
-@EntityScan("es.netmind.mypersonalbankapi.models")
+@EntityScan("es.netmind.mypersonalbankapi.modelos")
 public class SpringConfig {
 }
