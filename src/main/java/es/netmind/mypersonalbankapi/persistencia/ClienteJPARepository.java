@@ -30,7 +30,11 @@ public class ClienteJPARepository implements IClientesRepo{
     @Override
     @Transactional
     public Cliente addClient(Cliente cliente) throws Exception {
-        em.persist(cliente);
+        if (cliente.validar()) {
+            em.persist(cliente);
+        } else {
+            throw new Exception("Cliente no valido");
+        }
         return cliente;
     }
 
