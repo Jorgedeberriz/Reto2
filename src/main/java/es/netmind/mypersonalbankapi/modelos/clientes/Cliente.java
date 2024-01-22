@@ -28,7 +28,8 @@ public abstract class Cliente {
     @Transient
     private List<Cuenta> cuentas;
 
-    @Transient
+    @OneToMany(cascade = {CascadeType.ALL},fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id")
     private List<Prestamo> prestamos;
 
     /* CONSTRUCTOR */
