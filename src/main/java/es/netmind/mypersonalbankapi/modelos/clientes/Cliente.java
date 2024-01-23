@@ -26,10 +26,12 @@ public abstract class Cliente {
     private boolean activo;
     private boolean moroso;
     @Transient
+    @ToString.Exclude
     private List<Cuenta> cuentas;
 
     @OneToMany(cascade = {CascadeType.ALL},fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
+    @ToString.Exclude
     private List<Prestamo> prestamos;
 
     /* CONSTRUCTOR */

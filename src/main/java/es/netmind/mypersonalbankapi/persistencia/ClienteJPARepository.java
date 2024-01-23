@@ -20,7 +20,8 @@ public class ClienteJPARepository implements IClientesRepo{
 
     @Override
     public List<Cliente> getAll() {
-        return null;
+        return em.createQuery("SELECT s FROM Cliente s", Cliente.class).getResultList();
+
     }
 
     @Override

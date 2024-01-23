@@ -16,12 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {SpringConfig.class})
@@ -88,4 +88,12 @@ class ClienteJPARepositoryTest {
         assertThat(ncliente.getNombre(), is("Servicios Informatico SL"));
     }
 
+    @Test
+    @Transactional   // internamente se hacen 2 queries cuando hacemos el sout ya que escuela tiene lista de estudiantes
+    void getAll() {
+        List<Cliente> clientes = repo.getAll();
+        //System.out.println("clientes" + clientes);
+        assertNotNull(clientes);
+        assertTrue(clientes.size() >= 0);
+    }
 }
