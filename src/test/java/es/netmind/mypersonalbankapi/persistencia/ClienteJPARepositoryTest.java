@@ -75,6 +75,7 @@ class ClienteJPARepositoryTest {
     }
 
     @Test
+    @Transactional
     void dadoIdClientePersonal_cuandoRecuperarPorId_entoncesOk() throws Exception {
         Cliente ncliente = repo.getClientById(1);
         System.out.println(ncliente);
@@ -82,6 +83,7 @@ class ClienteJPARepositoryTest {
     }
 
     @Test
+    @Transactional
     void dadoIdClienteEmpresa_cuandoRecuperarPorId_entoncesOk() throws Exception {
         Cliente ncliente = repo.getClientById(3);
         System.out.println(ncliente);
@@ -96,4 +98,5 @@ class ClienteJPARepositoryTest {
         assertNotNull(clientes);
         assertTrue(clientes.size() >= 0);
     }
+
 }
