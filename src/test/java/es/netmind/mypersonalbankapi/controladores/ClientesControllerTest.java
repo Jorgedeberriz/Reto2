@@ -94,6 +94,8 @@ class ClientesControllerTest {
 
     @Test
     void mostrarDetalle() {
+        clicon.mostrarDetalle(1);
+        assertThat(outContent.toString(), containsString("Juan"));
     }
 
     @Test
