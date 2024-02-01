@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -21,6 +22,10 @@ import java.util.Optional;
 public class ClientesController {
     @Autowired
     private IClientesRepoData clientesRepo;
+    @Autowired
+    private ICuentasRepoData cuentasRepo;
+    @Autowired
+    private IPrestamosRepoData prestamosRepo;
 
     //@Autowired
     //private IClienteDBRepository clientesRepoDB;
@@ -88,7 +93,7 @@ public class ClientesController {
         }
 
     }
-
+    @Transactional
     public void eliminar(Integer uid) {
         System.out.println("\nBorrando cliente: " + uid);
         System.out.println("───────────────────────────────────");

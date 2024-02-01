@@ -1,13 +1,25 @@
 package es.netmind.mypersonalbankapi.modelos.cuentas;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Entity
 public abstract class Cuenta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private LocalDate fechaCreacion;
     private Double saldo;
+    @Transient
     private List<Transaccion> transacciones;
     private Double interes;
     private Double comision;
@@ -34,12 +46,13 @@ public abstract class Cuenta {
         this.saldo += monto;
     }
 
-    protected boolean validarComun(){
+    protected boolean validarComun() {
         if (this.fechaCreacion.isAfter(LocalDate.now())) return false;
         else if (this.interes < 0) return false;
         else if (this.comision < 0) return false;
         else return true;
     }
+
     public abstract boolean validar();
 
     /* GETTERS AND SETTERS */

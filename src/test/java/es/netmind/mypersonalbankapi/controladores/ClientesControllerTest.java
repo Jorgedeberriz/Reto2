@@ -87,7 +87,6 @@ class ClientesControllerTest {
     }
 
     @Test
-    @Transactional
     void mostrarLista() {
         clicon.mostrarLista();
         assertThat(outContent.toString(), containsString("Juan"));
@@ -99,6 +98,8 @@ class ClientesControllerTest {
 
     @Test
     void eliminar() {
+        clicon.eliminar(49);
+        assertThat(outContent.toString(), containsString("Cliente borrado 🙂!!"));
     }
 
     @Test
