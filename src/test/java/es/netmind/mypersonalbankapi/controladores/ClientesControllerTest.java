@@ -98,7 +98,7 @@ class ClientesControllerTest {
 
     @Test
     void eliminar() {
-        clicon.eliminar(49);
+        clicon.eliminar(35);
         assertThat(outContent.toString(), containsString("Cliente borrado 🙂!!"));
     }
 
