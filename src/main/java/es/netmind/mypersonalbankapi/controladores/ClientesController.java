@@ -42,10 +42,10 @@ public class ClientesController {
         System.out.println("───────────────────────────────────");
         List<Cliente> clientes = clientesRepo.findAll();
         for (Cliente cl : clientes) {
-
             try {
-                cl.validar();
-                System.out.println("(" + cl.getId() + ") " + cl.getNombre() + " " + cl.getId());
+                if (cl.validar()) {
+                    System.out.println("(" + cl.getId() + ") " + cl.getNombre() + " " + cl.getId());
+                } else throw new ClienteException("Cliente NO válido", ErrorCode.INVALIDCLIENT);
             } catch (ClienteException e) {
                 System.out.println("El cliente solicitado tiene datos erroneos 😞! Ponte en contacto con el admin. \nCode: " + e.getCode());
             } catch (Exception e) {
@@ -73,9 +73,9 @@ public class ClientesController {
         System.out.println("───────────────────────────────────");
         try {
             Cliente cl = ClientesUtils.extractClientFromArgsForCreate(args);
-            if(cl.validar()){
-              clientesRepo.save(cl);
-            }else throw new ClienteException("Cliente NO válido", ErrorCode.INVALIDCLIENT);
+            if (cl.validar()) {
+                clientesRepo.save(cl);
+            } else throw new ClienteException("Cliente NO válido", ErrorCode.INVALIDCLIENT);
             System.out.println("Cliente añadido: " + cl + " 🙂");
             mostrarLista();
         } catch (ClienteException e) {

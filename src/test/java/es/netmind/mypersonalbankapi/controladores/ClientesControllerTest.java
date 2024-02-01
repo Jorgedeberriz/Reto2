@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -83,5 +84,28 @@ class ClientesControllerTest {
     public void restoreStreams() {
         System.setOut(originalOut);
         System.setErr(originalErr);
+    }
+
+    @Test
+    @Transactional
+    void mostrarLista() {
+        clicon.mostrarLista();
+        assertThat(outContent.toString(), containsString("Juan"));
+    }
+
+    @Test
+    void mostrarDetalle() {
+    }
+
+    @Test
+    void eliminar() {
+    }
+
+    @Test
+    void actualizar() {
+    }
+
+    @Test
+    void evaluarPrestamo() {
     }
 }
