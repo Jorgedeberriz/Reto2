@@ -50,5 +50,10 @@ private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         precon.mostrarLista(1);
         assertThat(outContent.toString(), containsString("1"));
     }
+    @Test
+    void dadoUnClientePrestamo_MostrarDetalle () {
+        precon.mostrarDetalle(1,1);
+        assertThat(outContent.toString(), containsString("1"));
+    }
 
 }
