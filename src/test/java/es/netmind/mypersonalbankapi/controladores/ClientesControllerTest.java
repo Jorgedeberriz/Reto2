@@ -2,11 +2,13 @@ package es.netmind.mypersonalbankapi.controladores;
 
 import es.netmind.mypersonalbankapi.config.SpringConfig;
 import es.netmind.mypersonalbankapi.persistencia.IClientesRepo;
+import es.netmind.mypersonalbankapi.persistencia.IClientesRepoData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,13 +23,14 @@ import static org.hamcrest.Matchers.containsString;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {SpringConfig.class})
 @ActiveProfiles("dev")
+@EnableAutoConfiguration
 class ClientesControllerTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     private final PrintStream originalErr = System.err;
     @Autowired
-    private IClientesRepo repo;
+    private IClientesRepoData repo;
 
     @Autowired
     private ClientesController clicon;
