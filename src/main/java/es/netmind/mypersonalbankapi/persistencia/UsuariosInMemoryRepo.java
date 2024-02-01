@@ -1,13 +1,7 @@
 package es.netmind.mypersonalbankapi.persistencia;
 
-import es.netmind.mypersonalbankapi.exceptions.ClienteException;
-import es.netmind.mypersonalbankapi.exceptions.ErrorCode;
-import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
-import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
-import es.netmind.mypersonalbankapi.modelos.clientes.Personal;
 import es.netmind.mypersonalbankapi.modelos.usuario.Usuario;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

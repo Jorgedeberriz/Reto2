@@ -1,11 +1,5 @@
 package es.netmind.mypersonalbankapi;
 
-import es.netmind.mypersonalbankapi.controladores.ClientesController;
-import es.netmind.mypersonalbankapi.controladores.CuentasController;
-import es.netmind.mypersonalbankapi.controladores.PrestamosController;
-
-import java.util.Arrays;
-
 public class Main {
    /* public static void main(String[] args) {
         System.out.println("╔════════════════════════╗");

@@ -19,7 +19,8 @@ import java.util.Optional;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {SpringConfig.class})
@@ -89,6 +90,22 @@ class ClienteDataRepositoryTest {
         //System.out.println("clientes" + clientes);
         assertNotNull(clientes);
         assertTrue(clientes.size() >= 0);
+    }
+    @Test
+    @Transactional
+    void dadoCliente_cuandoModificar_entoncesOK () {
+        Optional<Cliente> opCliente = repo.findById(3);
+        Cliente ncliente = opCliente.get();
+        ncliente.setDireccion("nueva direccion");
+
+        repo.save(ncliente);
+
+        Optional<Cliente> opCliente2 = repo.findById(3);
+        Cliente nclientePos = opCliente2.get();
+        System.out.println("nclientePos:" +nclientePos);
+
+        assertThat(nclientePos.getDireccion(), is("nueva direccion"));
+
     }
 
 }

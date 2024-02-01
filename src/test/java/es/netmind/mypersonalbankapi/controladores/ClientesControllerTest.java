@@ -1,19 +1,15 @@
 package es.netmind.mypersonalbankapi.controladores;
 
 import es.netmind.mypersonalbankapi.config.SpringConfig;
-import es.netmind.mypersonalbankapi.persistencia.IClientesRepo;
-import es.netmind.mypersonalbankapi.persistencia.IClientesRepoData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -30,8 +26,6 @@ class ClientesControllerTest {
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     private final PrintStream originalErr = System.err;
-    @Autowired
-    private IClientesRepoData repo;
 
     @Autowired
     private ClientesController clicon;
@@ -99,13 +93,16 @@ class ClientesControllerTest {
     }
 
     @Test
-    void eliminar() {
+    void eliminar() throws Exception {
         clicon.eliminar(35);
         assertThat(outContent.toString(), containsString("Cliente borrado 🙂!!"));
     }
 
     @Test
     void actualizar() {
+        String[] args = {null, null, "nueva direccion", null, null, null, null};
+        clicon.actualizar(3,args);
+        assertThat(outContent.toString(), containsString("Cliente actualizado"));
     }
 
     @Test

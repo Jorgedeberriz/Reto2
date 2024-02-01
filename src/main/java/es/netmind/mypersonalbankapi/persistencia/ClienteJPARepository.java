@@ -1,8 +1,6 @@
 package es.netmind.mypersonalbankapi.persistencia;
 
-import es.netmind.mypersonalbankapi.exceptions.ClienteException;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
-import es.netmind.mypersonalbankapi.modelos.usuario.Usuario;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Repository;

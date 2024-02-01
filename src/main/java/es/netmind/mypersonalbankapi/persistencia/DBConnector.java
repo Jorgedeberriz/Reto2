@@ -1,6 +1,5 @@
 package es.netmind.mypersonalbankapi.persistencia;
 
-import es.netmind.mypersonalbankapi.properties.PropertyValues;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

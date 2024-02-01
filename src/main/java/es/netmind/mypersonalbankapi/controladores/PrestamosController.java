@@ -1,6 +1,5 @@
 package es.netmind.mypersonalbankapi.controladores;
 
-import es.netmind.mypersonalbankapi.exceptions.PrestamoException;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
 import es.netmind.mypersonalbankapi.modelos.prestamos.Prestamo;
 import es.netmind.mypersonalbankapi.persistencia.IClientesRepoData;

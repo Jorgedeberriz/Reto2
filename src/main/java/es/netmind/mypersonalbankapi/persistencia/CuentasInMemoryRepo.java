@@ -7,11 +7,9 @@ import es.netmind.mypersonalbankapi.modelos.cuentas.Ahorro;
 import es.netmind.mypersonalbankapi.modelos.cuentas.Corriente;
 import es.netmind.mypersonalbankapi.modelos.cuentas.Cuenta;
 
-import java.io.InvalidObjectException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class CuentasInMemoryRepo implements ICuentasRepo {
     private static CuentasInMemoryRepo instance;

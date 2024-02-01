@@ -4,12 +4,12 @@ import es.netmind.mypersonalbankapi.exceptions.ClienteException;
 import es.netmind.mypersonalbankapi.exceptions.ErrorCode;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
 import es.netmind.mypersonalbankapi.modelos.prestamos.Prestamo;
-import es.netmind.mypersonalbankapi.persistencia.*;
+import es.netmind.mypersonalbankapi.persistencia.IClientesRepoData;
+import es.netmind.mypersonalbankapi.persistencia.ICuentasRepoData;
+import es.netmind.mypersonalbankapi.persistencia.IPrestamosRepoData;
 import es.netmind.mypersonalbankapi.utils.ClientesUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DateTimeException;
@@ -110,7 +110,7 @@ public class ClientesController {
         }
 
     }
-
+    @Transactional
     public void actualizar(Integer uid, String[] args) {
         System.out.println("\nActualizando cliente: " + uid);
         System.out.println("───────────────────────────────────");
@@ -120,7 +120,9 @@ public class ClientesController {
             Cliente cl = opCl.get();
             System.out.println("cl.getClass():" + cl.getClass() + " " + cl);
             ClientesUtils.updateClientFromArgs(cl, args);
-            clientesRepo.save(cl);
+            if (cl.validar()) {
+                clientesRepo.save(cl);
+            } else throw new ClienteException("Cliente NO válido", ErrorCode.INVALIDCLIENT);
             System.out.println("Cliente actualizado 🙂!!");
             System.out.println(cl);
             mostrarLista();

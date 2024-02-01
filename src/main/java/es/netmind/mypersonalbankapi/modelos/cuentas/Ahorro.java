@@ -1,8 +1,17 @@
 package es.netmind.mypersonalbankapi.modelos.cuentas;
 
-import java.time.LocalDate;
-import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+import javax.persistence.Entity;
+import java.time.LocalDate;
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
+@Entity
 public class Ahorro extends Cuenta {
 
     public Ahorro(Integer id, LocalDate fechaCreacion, Double saldo, Double interes, Double comision) {

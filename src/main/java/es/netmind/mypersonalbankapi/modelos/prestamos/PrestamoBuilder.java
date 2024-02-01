@@ -1,11 +1,5 @@
 package es.netmind.mypersonalbankapi.modelos.prestamos;
 
-import es.netmind.mypersonalbankapi.exceptions.ClienteException;
-import es.netmind.mypersonalbankapi.exceptions.ErrorCode;
-import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
-import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
-import es.netmind.mypersonalbankapi.modelos.clientes.Personal;
-
 import java.time.LocalDate;
 
 public class PrestamoBuilder {
