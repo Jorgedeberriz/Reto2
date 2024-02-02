@@ -106,6 +106,13 @@ class ClientesControllerTest {
     }
 
     @Test
-    void evaluarPrestamo() {
+    void dadoClienteSinPrestamosySaldoenCuenta_cuandoEvaluarPrestamo_entoncesOK() {
+        clicon.evaluarPrestamo(2, 200D);
+        assertThat(outContent.toString(), containsString("SÍ se puede conceder"));
+    }
+    @Test
+    void dadoClienteConPrestamosyPocoSaldoenCuenta_cuandoEvaluarPrestamo_entoncesNOK() {
+        clicon.evaluarPrestamo(3, 2000D);
+        assertThat(outContent.toString(), containsString("NO puede conceder"));
     }
 }

@@ -136,7 +136,7 @@ public class ClientesController {
         }
 
     }
-
+    @Transactional
     public void evaluarPrestamo(Integer uid, Double cantidad) {
         System.out.println("\nEvaluando préstamos de " + cantidad + " EUR para el  cliente: " + uid);
         System.out.println("───────────────────────────────────");
