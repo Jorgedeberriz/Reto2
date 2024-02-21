@@ -1,0 +1,32 @@
+/clientes
+lista clientes: GET clientes
+	->
+    <- 200 JSON , 400, 500, 404
+alta cliente    POST/clientes
+  	-> JSON
+    <- 201 JSON, 400, 422, 500
+detalle cliente  GET/clientes/{uid}
+  	->
+    <- 200 JSON, 400, 404, 412, 500
+modificar cliente  PUT/clientes/{uid}
+  	-> JSON
+    <- 202 JSON, 400, 404, 422, 412, 500
+evaluar solicitud prestamos de un cliente   GET/clientes/evaluarPrestamo/{uid}?monto={m}
+  	->
+    <- 204, 400, 404, 412, 500
+
+/clientes/{uid}/prestamos
+Lista prestamos de un cliente   GET/clientes/{uid}/prestamos
+  	->
+    <- 200 JSON, 400, 500, 404, 412
+Detalle prestamos de un cliente   GET/clientes/{uid}/prestamos/{lid}
+  	->
+    <- 200 JSON, 400, 404, 412, 500
+
+/clientes/{uid}/cuentas
+lista cuentas de un cliente  GET/clientes/{uid}/cuentas
+  	->
+    <- 200 JSON, 400, 500, 404, 412
+detalle cuenta  GET/clientes/{uid}/cuentas/{cid}
+   	->
+    <- 200 JSON, 400, 500, 404, 412
