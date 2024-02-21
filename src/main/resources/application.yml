@@ -63,6 +63,6 @@ spring:
     hibernate:
       ddl-auto: update
       generate-ddl: true
-    defer-datasource-initialization: true
+    defer-datasource-initialization: false
 
 server.port: 9943
