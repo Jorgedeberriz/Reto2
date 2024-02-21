@@ -4,13 +4,12 @@ import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
 import es.netmind.mypersonalbankapi.persistencia.IClientesRepoData;
 import es.netmind.mypersonalbankapi.persistencia.ICuentasRepoData;
 import es.netmind.mypersonalbankapi.persistencia.IPrestamosRepoData;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +26,13 @@ public class ClientesControllerRest {
     @GetMapping(value="")
     public ResponseEntity<List<Cliente>> getAll() {
         return new ResponseEntity<>(clientesRepo.findAll(), HttpStatus.OK);
+    }
+    @GetMapping(value="/{uid}")
+    public ResponseEntity<Cliente> getOne(@PathVariable Integer uid) {
+        return new ResponseEntity<>(clientesRepo.findById(uid).get(), HttpStatus.OK);
+    }
+    @PostMapping(value="")
+    public ResponseEntity<Cliente> save(@RequestBody Cliente cliente) {
+        return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.CREATED);
     }
 }

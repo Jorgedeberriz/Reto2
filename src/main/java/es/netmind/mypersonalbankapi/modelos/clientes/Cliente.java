@@ -1,5 +1,6 @@
 package es.netmind.mypersonalbankapi.modelos.clientes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import es.netmind.mypersonalbankapi.modelos.cuentas.Cuenta;
 import es.netmind.mypersonalbankapi.modelos.prestamos.Prestamo;
 import lombok.*;
@@ -27,11 +28,13 @@ public abstract class Cliente {
     private boolean moroso;
     @Transient
     @ToString.Exclude
+    @JsonIgnore
     private List<Cuenta> cuentas;
 
     @OneToMany(cascade = {CascadeType.ALL},fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     @ToString.Exclude
+    @JsonIgnore
     private List<Prestamo> prestamos;
 
     /* CONSTRUCTOR */
