@@ -37,21 +37,11 @@ public class ClientesControllerRest {
     public ResponseEntity<Cliente> getOne(@PathVariable Integer uid) {
         return new ResponseEntity<>(clientesRepo.findById(uid).get(), HttpStatus.OK);
     }
-    @PostMapping(value="")
-    public ResponseEntity<Cliente> save(@RequestBody String tipoCliente, @RequestBody Cliente cliente) {
+    @PostMapping(value="/personal")
+    public ResponseEntity<Cliente> save( @RequestBody Personal cliente) {
+        //cliente.setId(null);
         //System.out.println("Tipo cliente: " + tipoCliente);
-        logger.info("Tipo cliente: " + tipoCliente);
-        if (tipoCliente.equals("P")) {
-            Cliente newCliente = new Personal();
-            newCliente = cliente;
-            return new ResponseEntity<>(clientesRepo.save(newCliente), HttpStatus.CREATED);
-        } else if (tipoCliente.equals("E")) {
-            Cliente newCliente = new Empresa();
-            newCliente = cliente;
-            return new ResponseEntity<>(clientesRepo.save(newCliente), HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.PRECONDITION_FAILED);
-        }
+        return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.CREATED);
 
     }
 }

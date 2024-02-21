@@ -2,9 +2,13 @@
 lista clientes: GET clientes
 	->
     <- 200 JSON , 400, 500, 404
-alta cliente    POST/clientes
+alta cliente    POST/clientes/personal
   	-> JSON
     <- 201 JSON, 400, 422, 500
+alta cliente    POST/clientes/empresa
+  	-> JSON
+    <- 201 JSON, 400, 422, 500
+
 detalle cliente  GET/clientes/{uid}
   	->
     <- 200 JSON, 400, 404, 412, 500
