@@ -1,11 +1,16 @@
 package es.netmind.mypersonalbankapi.controladores;
 
+import com.mysql.cj.xdevapi.Client;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
+import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
+import es.netmind.mypersonalbankapi.modelos.clientes.Personal;
 import es.netmind.mypersonalbankapi.persistencia.IClientesRepoData;
 import es.netmind.mypersonalbankapi.persistencia.ICuentasRepoData;
 import es.netmind.mypersonalbankapi.persistencia.IPrestamosRepoData;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +22,7 @@ import java.util.List;
 @RequestMapping("/clientes")
 @Tag(name = "MyPersonalBank", description = "My Personal Bank APIs")
 public class ClientesControllerRest {
+    private static final Logger logger = LoggerFactory.getLogger(ClientesControllerRest.class);
     @Autowired
     private IClientesRepoData clientesRepo;
     @Autowired
@@ -32,7 +38,20 @@ public class ClientesControllerRest {
         return new ResponseEntity<>(clientesRepo.findById(uid).get(), HttpStatus.OK);
     }
     @PostMapping(value="")
-    public ResponseEntity<Cliente> save(@RequestBody Cliente cliente) {
-        return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.CREATED);
+    public ResponseEntity<Cliente> save(@RequestBody String tipoCliente, @RequestBody Cliente cliente) {
+        //System.out.println("Tipo cliente: " + tipoCliente);
+        logger.info("Tipo cliente: " + tipoCliente);
+        if (tipoCliente.equals("P")) {
+            Cliente newCliente = new Personal();
+            newCliente = cliente;
+            return new ResponseEntity<>(clientesRepo.save(newCliente), HttpStatus.CREATED);
+        } else if (tipoCliente.equals("E")) {
+            Cliente newCliente = new Empresa();
+            newCliente = cliente;
+            return new ResponseEntity<>(clientesRepo.save(newCliente), HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.PRECONDITION_FAILED);
+        }
+
     }
 }
