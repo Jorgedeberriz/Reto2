@@ -10,7 +10,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 @Component
 public class DBConnector {
-    @Value("${db_url}")
+    /*@Value("${db_url}")*/
     String dbUrl;
     public void connect() throws SQLException, IOException {
         String db_url = dbUrl;

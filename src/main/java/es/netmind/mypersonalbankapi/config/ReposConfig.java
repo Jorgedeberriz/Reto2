@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class ReposConfig {
-
+/*
     @Value("${db_url}")
     String dbUrl;
 
@@ -30,5 +30,5 @@ public class ReposConfig {
         //repo.setDb_url(dbUrl);
         System.out.println("Entra perfil dev");
         return repo;
-    }
+    }*/
 }
