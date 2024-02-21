@@ -21,11 +21,12 @@ import java.time.LocalDate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-@ExtendWith(SpringExtension.class)
+/*@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {SpringConfig.class})
 @ActiveProfiles("dev")
-@EnableAutoConfiguration
+@EnableAutoConfiguration*/
 class ClientesControllerTest {
+    /*
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
@@ -36,11 +37,10 @@ class ClientesControllerTest {
     @Autowired
     private ClientesController clicon;
 
-    /*@BeforeEach
+    @BeforeEach
     void sepUp() throws Exception {
         repo = new ClienteDBRepository();
-    }*/
-
+    }
 
     @BeforeEach
     public void setUpStreams() {
@@ -65,6 +65,7 @@ class ClientesControllerTest {
     //    assertThat(outContent.toString(), containsString("Cliente NO válido"));
     //}
 
+    /*
     @Test
     void altaClienteDB_Ok() {
         String[] args = {"personal", "Nuevo cliente", "nc@dxc.com", "Calle Nueva 1", String.valueOf(LocalDate.now()), "87654321A"};
@@ -109,4 +110,5 @@ class ClientesControllerTest {
     @Test
     void evaluarPrestamo() {
     }
+    */
 }

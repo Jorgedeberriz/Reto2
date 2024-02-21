@@ -3,10 +3,20 @@ package es.netmind.mypersonalbankapi;
 import es.netmind.mypersonalbankapi.controladores.ClientesController;
 import es.netmind.mypersonalbankapi.controladores.CuentasController;
 import es.netmind.mypersonalbankapi.controladores.PrestamosController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Arrays;
 
+@SpringBootApplication
 public class Main {
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
+
    /* public static void main(String[] args) {
         System.out.println("╔════════════════════════╗");
         System.out.println("║  MY PERSONAL BANK API  ║");
