@@ -1,11 +1,20 @@
 package es.netmind.mypersonalbankapi.modelos.cuentas;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Corriente extends Cuenta {
+    @Transient
+    @JsonIgnore
     private List<Cheque> chequesIngresados;
+    @Transient
+    @JsonIgnore
     private List<Cheque> chequesEmitidos;
 
     public Corriente(Integer id, LocalDate fechaCreacion, Double saldo, Double interes, Double comision) {

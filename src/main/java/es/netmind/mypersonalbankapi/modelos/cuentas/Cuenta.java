@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Cuenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
