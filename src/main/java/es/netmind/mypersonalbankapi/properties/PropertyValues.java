@@ -12,7 +12,7 @@ public final class PropertyValues {
         Properties prop = null;
         try {
             prop = new Properties();
-            String propFileName = "_config.properties_";
+            String propFileName = "config.properties";
 
             inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 
