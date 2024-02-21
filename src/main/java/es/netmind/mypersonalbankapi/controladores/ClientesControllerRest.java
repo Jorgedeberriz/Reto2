@@ -39,7 +39,14 @@ public class ClientesControllerRest {
     }
     @PostMapping(value="/personal")
     public ResponseEntity<Cliente> save( @RequestBody Personal cliente) {
-        //cliente.setId(null);
+        cliente.setId(null);
+        //System.out.println("Tipo cliente: " + tipoCliente);
+        return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.CREATED);
+
+    }
+    @PostMapping(value="/empresa")
+    public ResponseEntity<Cliente> saveEmpresa( @RequestBody Empresa cliente) {
+        cliente.setId(null);
         //System.out.println("Tipo cliente: " + tipoCliente);
         return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.CREATED);
 
