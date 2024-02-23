@@ -1,5 +1,6 @@
 package es.netmind.mypersonalbankapi.modelos.prestamos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
 import lombok.*;
 
@@ -34,6 +35,7 @@ public class Prestamo {
     private boolean liquidado;
     @ManyToOne
     @JoinColumn(name = "cliente_id")
+    @JsonIgnore
     private Cliente myCliente;
 
     /* CONSTRUCTOR */

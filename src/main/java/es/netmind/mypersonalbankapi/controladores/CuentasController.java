@@ -1,39 +1,46 @@
 package es.netmind.mypersonalbankapi.controladores;
 
-import es.netmind.mypersonalbankapi.exceptions.CuentaException;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
 import es.netmind.mypersonalbankapi.modelos.cuentas.Cuenta;
-import es.netmind.mypersonalbankapi.persistencia.ClientesInMemoryRepo;
-import es.netmind.mypersonalbankapi.persistencia.CuentasInMemoryRepo;
-import es.netmind.mypersonalbankapi.persistencia.IClientesRepo;
-import es.netmind.mypersonalbankapi.persistencia.ICuentasRepo;
+import es.netmind.mypersonalbankapi.persistencia.IClientesRepoData;
+import es.netmind.mypersonalbankapi.persistencia.ICuentasRepoData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Component
 public class CuentasController {
-    private static ICuentasRepo cuentasRepo = CuentasInMemoryRepo.getInstance();
-    private static IClientesRepo clientesRepo = ClientesInMemoryRepo.getInstance();
+    @Autowired
+    private static ICuentasRepoData cuentasRepo;
+    @Autowired
+    private static IClientesRepoData clientesRepo;
 
     public static void mostrarLista(Integer uid) {
         System.out.println("\nLista de cuentas del cliente: " + uid);
         System.out.println("───────────────────────────────────");
 
         try {
-            List<Cuenta> cuentas = cuentasRepo.getAccountsByClient(uid);
+            List<Cuenta> cuentas = cuentasRepo.findByMyCliente_id(uid);
             if (cuentas != null && cuentas.size() > 0) System.out.println(cuentas);
             else System.out.println("El cliente no tiene cuentas!");
         } catch (Exception e) {
             System.out.println("Cliente NO encontrado 😞!");
         }
     }
-
+    @Transactional
     public static void mostrarDetalle(Integer uid, Integer aid) {
         System.out.println("\nDetalle de cuenta: " + aid + ", del cliente: " + uid);
         System.out.println("───────────────────────────────────");
 
         try {
-            Cuenta cuenta = cuentasRepo.getAccountsByClientAndId(uid, aid);
-            System.out.println(cuenta);
+            Cuenta cuenta = cuentasRepo.findById(aid).get();
+            if (cuenta.getMyCliente().getId() == uid){
+                System.out.println(cuenta);
+            } else {
+                System.out.println("Cuenta no del cliente.");
+            }
         } catch (Exception e) {
             System.out.println("Cuenta NO encontrada para el cliente 😞!");
         }
@@ -44,16 +51,16 @@ public class CuentasController {
         System.out.println("───────────────────────────────────");
 
         try {
-            Cuenta cu = cuentasRepo.getAccountsByClientAndId(uid, aid);
-            boolean borrado = cuentasRepo.deleteAccount(cu);
-            if (borrado) {
-                Cliente cl = clientesRepo.getClientById(uid);
+            Cuenta cu = cuentasRepo.findById(aid).get();
+            if (cu.getMyCliente().getId() == uid) {
+                cuentasRepo.delete(cu);
+
+                Cliente cl = clientesRepo.findById(uid).get();
                 cl.delisgarCuenta(cu);
                 System.out.println("Cuenta borrada 🙂!!");
                 mostrarLista(uid);
-            } else System.out.println("Cuenta NO borrada 😞!! Consulte con su oficina.");
-        } catch (CuentaException e) {
-            System.out.println("Cuenta NO encontrado 😞! \nCode: " + e.getCode());
+            } else System.out.println("Cuenta NO borrada 😞!! Cuenta no del cliente");
+
         } catch (Exception e) {
             System.out.println("Oops ha habido un problema, inténtelo más tarde 😞!");
         }

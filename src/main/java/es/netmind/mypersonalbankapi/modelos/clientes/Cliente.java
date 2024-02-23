@@ -26,7 +26,9 @@ public abstract class Cliente {
     private LocalDate alta;
     private boolean activo;
     private boolean moroso;
-    @Transient
+    //@Transient
+    @OneToMany(cascade = {CascadeType.ALL},fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id")
     @ToString.Exclude
     @JsonIgnore
     private List<Cuenta> cuentas;

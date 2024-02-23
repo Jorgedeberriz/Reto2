@@ -2,7 +2,6 @@ package es.netmind.mypersonalbankapi.modelos.cuentas;
 
 import javax.persistence.Entity;
 import java.time.LocalDate;
-import java.util.List;
 @Entity
 public class Ahorro extends Cuenta {
 

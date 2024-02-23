@@ -1,13 +1,11 @@
 package es.netmind.mypersonalbankapi.controladores;
 
-import com.mysql.cj.xdevapi.Client;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
 import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
 import es.netmind.mypersonalbankapi.modelos.clientes.Personal;
 import es.netmind.mypersonalbankapi.persistencia.IClientesRepoData;
 import es.netmind.mypersonalbankapi.persistencia.ICuentasRepoData;
 import es.netmind.mypersonalbankapi.persistencia.IPrestamosRepoData;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

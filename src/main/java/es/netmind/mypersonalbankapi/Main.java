@@ -1,8 +1,5 @@
 package es.netmind.mypersonalbankapi;
 
-import es.netmind.mypersonalbankapi.controladores.ClientesController;
-import es.netmind.mypersonalbankapi.controladores.CuentasController;
-import es.netmind.mypersonalbankapi.controladores.PrestamosController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
