@@ -1,5 +1,7 @@
 package es.netmind.mypersonalbankapi.controladores;
 
+import es.netmind.mypersonalbankapi.exceptions.ClienteException;
+import es.netmind.mypersonalbankapi.exceptions.ErrorCode;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
 import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
 import es.netmind.mypersonalbankapi.modelos.clientes.Personal;
@@ -45,8 +47,23 @@ public class ClientesControllerRest {
     @PostMapping(value="/empresa")
     public ResponseEntity<Cliente> saveEmpresa( @RequestBody Empresa cliente) {
         cliente.setId(null);
-        //System.out.println("Tipo cliente: " + tipoCliente);
         return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.CREATED);
 
+    }
+    @PutMapping(value ="/personal/{uid}")
+    public ResponseEntity<Object> updatePersonal(@PathVariable Integer uid, @RequestBody Personal cliente) {
+        if (uid == cliente.getId()) {
+            return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.ACCEPTED) ;
+        } else {
+            return new ResponseEntity<>(new ClienteException("Id y product.id deben coincidir", ErrorCode.INVALIDCLIENT), HttpStatus.PRECONDITION_FAILED) ;
+        }
+    }
+    @PutMapping(value ="/empresa/{uid}")
+    public ResponseEntity<Object> updateEmpresa(@PathVariable Integer uid, @RequestBody Empresa cliente) {
+        if (uid == cliente.getId()) {
+            return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.ACCEPTED) ;
+        } else {
+            return new ResponseEntity<>(new ClienteException("Id y product.id deben coincidir", ErrorCode.INVALIDCLIENT), HttpStatus.PRECONDITION_FAILED) ;
+        }
     }
 }

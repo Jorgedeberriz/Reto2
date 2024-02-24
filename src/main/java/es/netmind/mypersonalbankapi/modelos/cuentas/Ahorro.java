@@ -1,7 +1,13 @@
 package es.netmind.mypersonalbankapi.modelos.cuentas;
 
+import lombok.*;
+
 import javax.persistence.Entity;
 import java.time.LocalDate;
+@Getter
+@Setter
+@AllArgsConstructor
+@ToString
 @Entity
 public class Ahorro extends Cuenta {
 

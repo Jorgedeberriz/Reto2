@@ -12,9 +12,13 @@ alta cliente    POST/clientes/empresa
 detalle cliente  GET/clientes/{uid}
   	->
     <- 200 JSON, 400, 404, 412, 500
-modificar cliente  PUT/clientes/{uid}
+modificar cliente  PUT/clientes/personal/{uid}
   	-> JSON
     <- 202 JSON, 400, 404, 422, 412, 500
+modificar cliente  PUT/clientes/empresa/{uid}
+  	-> JSON
+    <- 202 JSON, 400, 404, 422, 412, 500
+
 evaluar solicitud prestamos de un cliente   GET/clientes/evaluarPrestamo/{uid}?monto={m}
   	->
     <- 204, 400, 404, 412, 500
