@@ -61,7 +61,7 @@ public class ClientesControllerRest {
         if (uid == cliente.getId()) {
             return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.ACCEPTED) ;
         } else {
-            return new ResponseEntity<>(new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Id y product.id deben coincidir"), HttpStatus.PRECONDITION_FAILED) ;
+            return new ResponseEntity<>(new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Id y cliente.id deben coincidir"), HttpStatus.PRECONDITION_FAILED) ;
         }
     }
     @PutMapping(value ="/empresa/{uid}")
@@ -69,7 +69,7 @@ public class ClientesControllerRest {
         if (uid == cliente.getId()) {
             return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.ACCEPTED) ;
         } else {
-            return new ResponseEntity<>(new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Id y product.id deben coincidir"), HttpStatus.PRECONDITION_FAILED) ;
+            return new ResponseEntity<>(new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Id y cliente.id deben coincidir"), HttpStatus.PRECONDITION_FAILED) ;
         }
     }
     @GetMapping(value = "/evaluarPrestamo/{uid}")
