@@ -49,9 +49,9 @@ public class ClientesController {
             try {
                 if (cl.validar()) {
                     System.out.println("(" + cl.getId() + ") " + cl.getNombre() + " " + cl.getId());
-                } else throw new ClienteException("Cliente NO válido", ErrorCode.INVALIDCLIENT);
+                } else throw new ClienteException("Cliente NO válido");
             } catch (ClienteException e) {
-                System.out.println("El cliente solicitado tiene datos erroneos 😞! Ponte en contacto con el admin. \nCode: " + e.getCode());
+                System.out.println("El cliente solicitado tiene datos erroneos 😞! Ponte en contacto con el admin. \nCode: ");
             } catch (Exception e) {
                 System.out.println("Oops ha habido un problema, inténtelo más tarde 😞!");
             }
@@ -79,11 +79,11 @@ public class ClientesController {
             Cliente cl = ClientesUtils.extractClientFromArgsForCreate(args);
             if (cl.validar()) {
                 clientesRepo.save(cl);
-            } else throw new ClienteException("Cliente NO válido", ErrorCode.INVALIDCLIENT);
+            } else throw new ClienteException("Cliente NO válido");
             System.out.println("Cliente añadido: " + cl + " 🙂");
             mostrarLista();
         } catch (ClienteException e) {
-            System.out.println("Cliente NO válido 😞! \nCode: " + e.getCode());
+            System.out.println("Cliente NO válido 😞! \nCode: ");
         } catch (DateTimeException e) {
             System.out.println("⚠ LAS FECHAS DEBEN TENER EL FORMATO yyyy-mm-dd, por ejemplo 2023-12-01 ⚠");
         } catch (Exception e) {
@@ -124,7 +124,7 @@ public class ClientesController {
             System.out.println(cl);
             mostrarLista();
         } catch (ClienteException e) {
-            System.out.println("Cliente NO encontrado 😞! \nCode: " + e.getCode());
+            System.out.println("Cliente NO encontrado 😞! \nCode: ");
         } catch (DateTimeException e) {
             System.out.println("⚠ LAS FECHAS DEBEN TENER EL FORMATO yyyy-mm-dd, por ejemplo 2023-12-01 ⚠");
         } catch (Exception e) {

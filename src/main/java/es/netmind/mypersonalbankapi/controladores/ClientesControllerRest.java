@@ -1,7 +1,6 @@
 package es.netmind.mypersonalbankapi.controladores;
 
 import es.netmind.mypersonalbankapi.exceptions.ClienteException;
-import es.netmind.mypersonalbankapi.exceptions.ErrorCode;
 import es.netmind.mypersonalbankapi.modelos.StatusMessage;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
 import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
@@ -92,7 +91,7 @@ public class ClientesControllerRest {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(new ClienteException("Oops ha habido un problema, inténtelo más tarde 😞!",null) ,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ClienteException("Oops ha habido un problema, inténtelo más tarde 😞!") ,HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

@@ -1,19 +1,10 @@
 package es.netmind.mypersonalbankapi.exceptions;
 
-public class ClienteException extends Exception{
-    private final ErrorCode code;
+public class ClienteException extends GlobalException{
+    private static final long serialVersionUID = 2L;
 
-	public ClienteException(ErrorCode code) {
-		super();
-		this.code = code;
-	}
-
-	public ClienteException(String message, ErrorCode code) {
+	public ClienteException(String message) {
 		super(message);
-		this.code = code;
 	}
 
-	public ErrorCode getCode() {
-		return this.code;
-	}
 }
