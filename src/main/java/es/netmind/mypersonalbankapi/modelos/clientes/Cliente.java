@@ -3,6 +3,7 @@ package es.netmind.mypersonalbankapi.modelos.clientes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import es.netmind.mypersonalbankapi.modelos.cuentas.Cuenta;
 import es.netmind.mypersonalbankapi.modelos.prestamos.Prestamo;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,24 +18,32 @@ import java.util.List;
 @ToString
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Schema(name = "Cliente", description = "Datos cliente")
 public abstract class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Min(1)
+    @Schema(name = "Cliente ID", example = "1", required = false)
     private Integer id;
     @NotBlank
     @Size(min = 3, max = 30)
+    @Schema(name = "Nombre", example = "Juan", required = true)
     private String nombre;
     @Email
+    @Schema(name = "Email", example = "juan@pp.es", required = true)
     private String email;
     @NotBlank
     @Size(min = 5)
+    @Schema(name = "Dirección", example = "C/Mayor", required = true)
     private String direccion;
     @NotNull
+    @Schema(name = "Fecha alta", example = "2024-01-01", required = true)
     private LocalDate alta;
     @NotNull
+    @Schema(name = "Cliente activo", example = "true", required = true)
     private boolean activo;
     @NotNull
+    @Schema(name = "Cliente moroso", example = "false", required = true)
     private boolean moroso;
     //@Transient
     @OneToMany(cascade = {CascadeType.ALL},fetch = FetchType.LAZY)

@@ -1,5 +1,6 @@
 package es.netmind.mypersonalbankapi.modelos.clientes;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -10,7 +11,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 @Entity
+@Schema(name = "Personal", description = "Datos cliente personal")
+
 public class Personal extends Cliente {
+    @Schema(name = "DNI", example = "1234567A", required = true)
     private String dni;
 
     public Personal(Integer id, String nombre, String email, String direccion, LocalDate alta, boolean activo, boolean moroso, String dni) throws Exception{

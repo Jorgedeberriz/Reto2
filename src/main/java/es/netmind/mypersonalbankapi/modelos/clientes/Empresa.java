@@ -1,5 +1,6 @@
 package es.netmind.mypersonalbankapi.modelos.clientes;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -14,11 +15,14 @@ import java.util.Arrays;
 @NoArgsConstructor
 @ToString
 @Entity
+@Schema(name = "Empresa", description = "Datos cliente empresa")
 public class Empresa extends Cliente {
+    @Schema(name = "Cif", example = "B12345678", required = true)
     private String cif;
     @ElementCollection
     @OrderColumn
     @Column(name = "unidades_de_negocio")
+    @Schema(name = "Unidades de Negocio", example = "UN 1", required = true)
     private String[] unidadesNegocio;
 
     public Empresa(Integer id, String nombre, String email, String direccion, LocalDate alta, boolean activo, boolean moroso, String cif, String[] unidadesNegocio) throws Exception{
