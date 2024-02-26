@@ -23,16 +23,18 @@ public abstract class Cliente {
     @Min(1)
     private Integer id;
     @NotBlank
-    @Size(min = 3, max = 20)
+    @Size(min = 3, max = 30)
     private String nombre;
     @Email
     private String email;
     @NotBlank
     @Size(min = 5)
     private String direccion;
-    @NotBlank
+    @NotNull
     private LocalDate alta;
+    @NotNull
     private boolean activo;
+    @NotNull
     private boolean moroso;
     //@Transient
     @OneToMany(cascade = {CascadeType.ALL},fetch = FetchType.LAZY)
