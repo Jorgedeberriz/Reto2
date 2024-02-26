@@ -16,14 +16,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/clientes")
+@Validated
 @Tag(name = "MyPersonalBank", description = "My Personal Bank APIs")
 public class ClientesControllerRest {
     private static final Logger logger = LoggerFactory.getLogger(ClientesControllerRest.class);
@@ -42,20 +45,20 @@ public class ClientesControllerRest {
         return new ResponseEntity<>(clientesRepo.findById(uid).get(), HttpStatus.OK);
     }
     @PostMapping(value="/personal")
-    public ResponseEntity<Cliente> save( @RequestBody Personal cliente) {
+    public ResponseEntity<Cliente> save( @RequestBody @Valid Personal cliente) {
         cliente.setId(null);
         //System.out.println("Tipo cliente: " + tipoCliente);
         return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.CREATED);
 
     }
     @PostMapping(value="/empresa")
-    public ResponseEntity<Cliente> saveEmpresa( @RequestBody Empresa cliente) {
+    public ResponseEntity<Cliente> saveEmpresa( @RequestBody @Valid Empresa cliente) {
         cliente.setId(null);
         return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.CREATED);
 
     }
     @PutMapping(value ="/personal/{uid}")
-    public ResponseEntity<Object> updatePersonal(@PathVariable Integer uid, @RequestBody Personal cliente) {
+    public ResponseEntity<Object> updatePersonal(@PathVariable Integer uid, @RequestBody @Valid Personal cliente) {
         if (uid == cliente.getId()) {
             return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.ACCEPTED) ;
         } else {
@@ -63,7 +66,7 @@ public class ClientesControllerRest {
         }
     }
     @PutMapping(value ="/empresa/{uid}")
-    public ResponseEntity<Object> updateEmpresa(@PathVariable Integer uid, @RequestBody Empresa cliente) {
+    public ResponseEntity<Object> updateEmpresa(@PathVariable Integer uid, @RequestBody @Valid Empresa cliente) {
         if (uid == cliente.getId()) {
             return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.ACCEPTED) ;
         } else {

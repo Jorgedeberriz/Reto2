@@ -6,6 +6,7 @@ import es.netmind.mypersonalbankapi.modelos.prestamos.Prestamo;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,17 @@ import java.util.List;
 public abstract class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Min(1)
     private Integer id;
+    @NotBlank
+    @Size(min = 3, max = 20)
     private String nombre;
+    @Email
     private String email;
+    @NotBlank
+    @Size(min = 5)
     private String direccion;
+    @NotBlank
     private LocalDate alta;
     private boolean activo;
     private boolean moroso;
