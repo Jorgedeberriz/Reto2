@@ -9,6 +9,9 @@ import es.netmind.mypersonalbankapi.modelos.prestamos.Prestamo;
 import es.netmind.mypersonalbankapi.persistencia.IClientesRepoData;
 import es.netmind.mypersonalbankapi.persistencia.ICuentasRepoData;
 import es.netmind.mypersonalbankapi.persistencia.IPrestamosRepoData;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,14 +38,31 @@ public class ClientesControllerRest {
     private ICuentasRepoData cuentasRepo;
     @Autowired
     private IPrestamosRepoData prestamosRepo;
+
+    @Operation(summary = "Get clients", description = "Retorna todos los clientes del sistema")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "204", description = "Not content - empty list")
+    })
     @GetMapping(value="")
     public ResponseEntity<List<Cliente>> getAll() {
         return new ResponseEntity<>(clientesRepo.findAll(), HttpStatus.OK);
     }
+    @Operation(summary = "Get a client by id", description = "Retorna un cliente por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "404", description = "Not found - The client was not found")
+    })
     @GetMapping(value="/{uid}")
     public ResponseEntity<Cliente> getOne(@PathVariable Integer uid) {
         return new ResponseEntity<>(clientesRepo.findById(uid).get(), HttpStatus.OK);
     }
+    @Operation(summary = "Add personal client", description = "Alta cliente tipo personal")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created"),
+            @ApiResponse(responseCode = "400", description = "Bad request - Not valid client"),
+            @ApiResponse(responseCode = "422", description = "Unprocessable entity")
+    })
     @PostMapping(value="/personal")
     public ResponseEntity<Cliente> save( @RequestBody @Valid Personal cliente) {
         cliente.setId(null);
@@ -50,12 +70,25 @@ public class ClientesControllerRest {
         return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.CREATED);
 
     }
+    @Operation(summary = "Add business client", description = "Alta cliente tipo empresa")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created"),
+            @ApiResponse(responseCode = "400", description = "Bad request - Not valid client"),
+            @ApiResponse(responseCode = "422", description = "Unprocessable entity")
+    })
     @PostMapping(value="/empresa")
     public ResponseEntity<Cliente> saveEmpresa( @RequestBody @Valid Empresa cliente) {
         cliente.setId(null);
         return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.CREATED);
 
     }
+    @Operation(summary = "Modify personal client", description = "Modificacion cliente tipo personal")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "202", description = "Accepted"),
+            @ApiResponse(responseCode = "400", description = "Bad request - Not valid client"),
+            @ApiResponse(responseCode = "412", description = "Precondition failed"),
+            @ApiResponse(responseCode = "422", description = "Unprocessable entity")
+    })
     @PutMapping(value ="/personal/{uid}")
     public ResponseEntity<Object> updatePersonal(@PathVariable Integer uid, @RequestBody @Valid Personal cliente) {
         if (uid == cliente.getId()) {
@@ -64,6 +97,13 @@ public class ClientesControllerRest {
             return new ResponseEntity<>(new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Id y cliente.id deben coincidir"), HttpStatus.PRECONDITION_FAILED) ;
         }
     }
+    @Operation(summary = "Modify business client", description = "Modificacion cliente tipo empresa")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "202", description = "Accepted"),
+            @ApiResponse(responseCode = "400", description = "Bad request - Not valid client"),
+            @ApiResponse(responseCode = "412", description = "Precondition failed"),
+            @ApiResponse(responseCode = "422", description = "Unprocessable entity")
+    })
     @PutMapping(value ="/empresa/{uid}")
     public ResponseEntity<Object> updateEmpresa(@PathVariable Integer uid, @RequestBody @Valid Empresa cliente) {
         if (uid == cliente.getId()) {
@@ -72,6 +112,13 @@ public class ClientesControllerRest {
             return new ResponseEntity<>(new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Id y cliente.id deben coincidir"), HttpStatus.PRECONDITION_FAILED) ;
         }
     }
+    @Operation(summary = "Evaluate client loan", description = "Evaluar solicitud prestamo de un cliente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "202", description = "Accepted"),
+            @ApiResponse(responseCode = "400", description = "Bad request - Loan not accepted"),
+            @ApiResponse(responseCode = "412", description = "Precondition failed"),
+    })
+
     @GetMapping(value = "/evaluarPrestamo/{uid}")
     public ResponseEntity<Object> evaluarPrestamo(@PathVariable Integer uid, @RequestParam Double monto) {
 

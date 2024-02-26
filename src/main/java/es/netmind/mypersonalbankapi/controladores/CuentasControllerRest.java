@@ -3,6 +3,9 @@ package es.netmind.mypersonalbankapi.controladores;
 import es.netmind.mypersonalbankapi.modelos.cuentas.Cuenta;
 import es.netmind.mypersonalbankapi.persistencia.IClientesRepoData;
 import es.netmind.mypersonalbankapi.persistencia.ICuentasRepoData;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +28,21 @@ public class CuentasControllerRest {
     private IClientesRepoData clientesRepo;
     @Autowired
     private ICuentasRepoData cuentasRepo;
+    @Operation(summary = "Get clients accounts", description = "Returna todos las cuentas de un cliente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "204", description = "Not content - empty list"),
+            @ApiResponse(responseCode = "400", description = "Bad request")
+    })
     @GetMapping(value="")
     public ResponseEntity<List<Cuenta>> getAll(@PathVariable Integer uid) {
         return new ResponseEntity<>(cuentasRepo.findByMyCliente_id(uid), HttpStatus.OK);
     }
+    @Operation(summary = "Get a account by id", description = "Retorna una cuenta por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "404", description = "Not found - The account was not found")
+    })
     @GetMapping(value="/{aid}")
     public ResponseEntity<Cuenta> getOne(@PathVariable Integer uid, @PathVariable Integer aid) {
 
