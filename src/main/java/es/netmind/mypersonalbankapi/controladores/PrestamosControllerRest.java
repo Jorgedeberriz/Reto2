@@ -1,10 +1,8 @@
 package es.netmind.mypersonalbankapi.controladores;
 
-import es.netmind.mypersonalbankapi.exceptions.GlobalException;
 import es.netmind.mypersonalbankapi.modelos.StatusMessage;
 import es.netmind.mypersonalbankapi.modelos.prestamos.Prestamo;
-import es.netmind.mypersonalbankapi.persistencia.IClientesRepoData;
-import es.netmind.mypersonalbankapi.persistencia.IPrestamosRepoData;
+import es.netmind.mypersonalbankapi.servicios.IPrestamoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Min;
+import java.util.List;
 
 @RestController
 @Validated
@@ -29,10 +28,9 @@ import javax.validation.constraints.Min;
 @Tag(name = "MyPersonalBank", description = "My Personal Bank APIs")
 public class PrestamosControllerRest {
     private static final Logger logger = LoggerFactory.getLogger(PrestamosControllerRest.class);
+
     @Autowired
-    private IClientesRepoData clientesRepo;
-    @Autowired
-    private IPrestamosRepoData prestamosRepo;
+    private IPrestamoService prestamosService;
 
     @Operation(summary = "Get clients loans", description = "Retorna todos los prestamos de un cliente")
     @ApiResponses(value = {
@@ -41,13 +39,15 @@ public class PrestamosControllerRest {
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
     @GetMapping(value = "")
-    public ResponseEntity<Object> getAll(
+    public ResponseEntity<List<Prestamo>> getAll(
             @Parameter(name = "id", description = "Client id", example = "1", required = true)
             @PathVariable @Min(1) Integer uid) {
-        if (!clientesRepo.existsById(uid))
-            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(), "Cliente inexistente"), HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<>(prestamosRepo.findByMyCliente_id(uid), HttpStatus.OK);
+        List<Prestamo> lista  = prestamosService.getAll(uid);
+        if (lista.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(prestamosService.getAll(uid), HttpStatus.OK);
     }
 
     @Operation(summary = "Get a loan by id", description = "Retorna un prestamo por ID")
@@ -62,20 +62,13 @@ public class PrestamosControllerRest {
             @Parameter(name = "id", description = "Loan id", example = "1", required = true)
             @PathVariable @Min(1) Integer lid) {
 
-        if (!clientesRepo.existsById(uid))
-            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(), "Cliente inexistente"), HttpStatus.NOT_FOUND);
-        if (!prestamosRepo.existsById(lid))
-            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(), "Prestamo inexistente"), HttpStatus.NOT_FOUND) ;
-
-        Prestamo pr = prestamosRepo.findById(lid).get();
+        Prestamo pr = prestamosService.getOne(uid, lid);
         if (uid == pr.getId()) {
             return new ResponseEntity<>(pr, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(
                     new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Prestamo no pertenece al cliente"),
                     HttpStatus.PRECONDITION_FAILED);
-
-
         }
 
     }

@@ -2,8 +2,7 @@ package es.netmind.mypersonalbankapi.controladores;
 
 import es.netmind.mypersonalbankapi.modelos.StatusMessage;
 import es.netmind.mypersonalbankapi.modelos.cuentas.Cuenta;
-import es.netmind.mypersonalbankapi.persistencia.IClientesRepoData;
-import es.netmind.mypersonalbankapi.persistencia.ICuentasRepoData;
+import es.netmind.mypersonalbankapi.servicios.ICuentasService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
 
@@ -31,9 +30,7 @@ import java.util.List;
 public class CuentasControllerRest {
     private static final Logger logger = LoggerFactory.getLogger(CuentasControllerRest.class);
     @Autowired
-    private IClientesRepoData clientesRepo;
-    @Autowired
-    private ICuentasRepoData cuentasRepo;
+    private ICuentasService cuentasService;
     @Operation(summary = "Get clients accounts", description = "Returna todos las cuentas de un cliente")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
@@ -41,12 +38,14 @@ public class CuentasControllerRest {
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
     @GetMapping(value="")
-    public ResponseEntity<Object> getAll(
+    public ResponseEntity<List<Cuenta>> getAll(
             @Parameter(name="id", description = "Client id", example = "1", required = true)
             @PathVariable @Min(1) Integer uid) {
-        if (!clientesRepo.existsById(uid))
-            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(), "Cliente inexistente"), HttpStatus.NOT_FOUND) ;
-        return new ResponseEntity<>(cuentasRepo.findByMyCliente_id(uid), HttpStatus.OK);
+        List<Cuenta> lista  = cuentasService.getAll(uid);
+        if (lista.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(cuentasService.getAll(uid), HttpStatus.OK);
     }
     @Operation(summary = "Get a account by id", description = "Retorna una cuenta por ID")
     @ApiResponses(value = {
@@ -60,11 +59,8 @@ public class CuentasControllerRest {
             @PathVariable @Min(1) Integer uid,
             @Parameter(name="id", description = "Account id", example = "1", required = true)
             @PathVariable @Min(1) Integer aid) {
-        if (!clientesRepo.existsById(uid))
-            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(), "Cliente inexistente"), HttpStatus.NOT_FOUND) ;
-        if (!cuentasRepo.existsById(aid))
-            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(), "Cuenta inexistente"), HttpStatus.NOT_FOUND) ;
-        Cuenta cu = cuentasRepo.findById(aid).get();
+
+        Cuenta cu = cuentasService.getOne(uid, aid);
         if (uid == cu.getId()) {
             return new ResponseEntity<>(cu, HttpStatus.OK);
         } else {

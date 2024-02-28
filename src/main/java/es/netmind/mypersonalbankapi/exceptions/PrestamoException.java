@@ -1,19 +1,10 @@
 package es.netmind.mypersonalbankapi.exceptions;
 
-public class PrestamoException extends Exception{
-    private final ErrorCode code;
+public class PrestamoException extends GlobalException{
+	private static final long serialVersionUID = 2L;
 
-	public PrestamoException(ErrorCode code) {
-		super();
-		this.code = code;
-	}
-
-	public PrestamoException(String message, ErrorCode code) {
+	public PrestamoException(String message) {
 		super(message);
-		this.code = code;
 	}
 
-	public ErrorCode getCode() {
-		return this.code;
-	}
 }

@@ -1,16 +1,11 @@
 package es.netmind.mypersonalbankapi.controladores;
 
 import es.netmind.mypersonalbankapi.exceptions.ClienteException;
-import es.netmind.mypersonalbankapi.exceptions.ErrorCode;
-import es.netmind.mypersonalbankapi.exceptions.GlobalException;
 import es.netmind.mypersonalbankapi.modelos.StatusMessage;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
 import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
 import es.netmind.mypersonalbankapi.modelos.clientes.Personal;
-import es.netmind.mypersonalbankapi.modelos.prestamos.Prestamo;
-import es.netmind.mypersonalbankapi.persistencia.IClientesRepoData;
-import es.netmind.mypersonalbankapi.persistencia.ICuentasRepoData;
-import es.netmind.mypersonalbankapi.persistencia.IPrestamosRepoData;
+import es.netmind.mypersonalbankapi.servicios.IClientesServices;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,9 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/clientes")
@@ -37,11 +30,7 @@ import java.util.Optional;
 public class ClientesControllerRest {
     private static final Logger logger = LoggerFactory.getLogger(ClientesControllerRest.class);
     @Autowired
-    private IClientesRepoData clientesRepo;
-    @Autowired
-    private ICuentasRepoData cuentasRepo;
-    @Autowired
-    private IPrestamosRepoData prestamosRepo;
+    private IClientesServices clientesService;
 
     @Operation(summary = "Get clients", description = "Retorna todos los clientes del sistema")
     @ApiResponses(value = {
@@ -50,7 +39,7 @@ public class ClientesControllerRest {
     })
     @GetMapping(value="")
     public ResponseEntity<List<Cliente>> getAll() {
-        return new ResponseEntity<>(clientesRepo.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(clientesService.getAll(), HttpStatus.OK);
     }
     @Operation(summary = "Get a client by id", description = "Retorna un cliente por ID")
     @ApiResponses(value = {
@@ -61,10 +50,7 @@ public class ClientesControllerRest {
     public ResponseEntity<Object> getOne(
             @Parameter(name="id", description = "Client id", example = "1", required = true)
             @PathVariable @Min(1) Integer uid) {
-        //if (!clientesRepo.existsById(uid)) throw new GlobalException("Cliente no encontrado");
-        if (!clientesRepo.existsById(uid))
-            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(), "Cliente inexistente"), HttpStatus.NOT_FOUND) ;
-        return new ResponseEntity<>(clientesRepo.findById(uid).get(), HttpStatus.OK);
+        return new ResponseEntity<>(clientesService.getOne(uid), HttpStatus.OK);
     }
     @Operation(summary = "Add personal client", description = "Alta cliente tipo personal")
     @ApiResponses(value = {
@@ -75,8 +61,7 @@ public class ClientesControllerRest {
     @PostMapping(value="/personal")
     public ResponseEntity<Cliente> save( @RequestBody @Valid Personal cliente) {
         cliente.setId(null);
-        //System.out.println("Tipo cliente: " + tipoCliente);
-        return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.CREATED);
+        return new ResponseEntity<>(clientesService.save(cliente), HttpStatus.CREATED);
 
     }
     @Operation(summary = "Add business client", description = "Alta cliente tipo empresa")
@@ -88,7 +73,7 @@ public class ClientesControllerRest {
     @PostMapping(value="/empresa")
     public ResponseEntity<Cliente> saveEmpresa( @RequestBody @Valid Empresa cliente) {
         cliente.setId(null);
-        return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.CREATED);
+        return new ResponseEntity<>(clientesService.saveEmpresa(cliente), HttpStatus.CREATED);
 
     }
     @Operation(summary = "Modify personal client", description = "Modificacion cliente tipo personal")
@@ -104,9 +89,7 @@ public class ClientesControllerRest {
             @PathVariable @Min(1) Integer uid,
             @RequestBody @Valid Personal cliente) {
         if (uid == cliente.getId()) {
-            if (!clientesRepo.existsById(uid))
-                return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(), "Cliente inexistente"), HttpStatus.NOT_FOUND) ;
-            return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.ACCEPTED) ;
+            return new ResponseEntity<>(clientesService.updatePersonal(uid, cliente), HttpStatus.ACCEPTED) ;
         } else {
             return new ResponseEntity<>(new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Id y cliente.id deben coincidir"), HttpStatus.PRECONDITION_FAILED) ;
         }
@@ -124,9 +107,7 @@ public class ClientesControllerRest {
             @PathVariable @Min(1) Integer uid,
             @RequestBody @Valid Empresa cliente) {
         if (uid == cliente.getId()) {
-            if (!clientesRepo.existsById(uid))
-                return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(), "Cliente inexistente"), HttpStatus.NOT_FOUND) ;
-            return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.ACCEPTED) ;
+            return new ResponseEntity<>(clientesService.updateEmpresa(uid, cliente), HttpStatus.ACCEPTED) ;
         } else {
             return new ResponseEntity<>(new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Id y cliente.id deben coincidir"), HttpStatus.PRECONDITION_FAILED) ;
         }
@@ -146,17 +127,7 @@ public class ClientesControllerRest {
             @RequestParam @Min(1) Double monto) {
 
         try {
-            if (!clientesRepo.existsById(uid))
-                return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(), "Cliente inexistente"), HttpStatus.NOT_FOUND) ;
-
-            Optional<Cliente> opCliente = clientesRepo.findById(uid);
-            Cliente cliente = opCliente.get();
-            int numPrestamos = cliente.getPrestamos() != null ? cliente.getPrestamos().size() : 0;
-
-
-            Prestamo prestamoSolictado = new Prestamo(null, LocalDate.now(), monto, monto, 10, 5, false, false, 5);
-
-            boolean aceptable = cliente.evaluarSolicitudPrestamo(prestamoSolictado);
+            boolean aceptable = clientesService.evaluarPrestamo(uid, monto);
             if (aceptable) {
                 return new ResponseEntity<>(new StatusMessage(HttpStatus.ACCEPTED.value(), "SÍ se puede conceder !!"), HttpStatus.ACCEPTED);
             } else {
