@@ -1,6 +1,8 @@
 package es.netmind.mypersonalbankapi.controladores;
 
 import es.netmind.mypersonalbankapi.exceptions.ClienteException;
+import es.netmind.mypersonalbankapi.exceptions.ErrorCode;
+import es.netmind.mypersonalbankapi.exceptions.GlobalException;
 import es.netmind.mypersonalbankapi.modelos.StatusMessage;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
 import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
@@ -10,6 +12,7 @@ import es.netmind.mypersonalbankapi.persistencia.IClientesRepoData;
 import es.netmind.mypersonalbankapi.persistencia.ICuentasRepoData;
 import es.netmind.mypersonalbankapi.persistencia.IPrestamosRepoData;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,6 +25,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -54,7 +58,12 @@ public class ClientesControllerRest {
             @ApiResponse(responseCode = "404", description = "Not found - The client was not found")
     })
     @GetMapping(value="/{uid}")
-    public ResponseEntity<Cliente> getOne(@PathVariable Integer uid) {
+    public ResponseEntity<Object> getOne(
+            @Parameter(name="id", description = "Client id", example = "1", required = true)
+            @PathVariable @Min(1) Integer uid) {
+        //if (!clientesRepo.existsById(uid)) throw new GlobalException("Cliente no encontrado");
+        if (!clientesRepo.existsById(uid))
+            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(), "Cliente inexistente"), HttpStatus.NOT_FOUND) ;
         return new ResponseEntity<>(clientesRepo.findById(uid).get(), HttpStatus.OK);
     }
     @Operation(summary = "Add personal client", description = "Alta cliente tipo personal")
@@ -90,8 +99,13 @@ public class ClientesControllerRest {
             @ApiResponse(responseCode = "422", description = "Unprocessable entity")
     })
     @PutMapping(value ="/personal/{uid}")
-    public ResponseEntity<Object> updatePersonal(@PathVariable Integer uid, @RequestBody @Valid Personal cliente) {
+    public ResponseEntity<Object> updatePersonal(
+            @Parameter(name="id", description = "Client id", example = "1", required = true)
+            @PathVariable @Min(1) Integer uid,
+            @RequestBody @Valid Personal cliente) {
         if (uid == cliente.getId()) {
+            if (!clientesRepo.existsById(uid))
+                return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(), "Cliente inexistente"), HttpStatus.NOT_FOUND) ;
             return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.ACCEPTED) ;
         } else {
             return new ResponseEntity<>(new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Id y cliente.id deben coincidir"), HttpStatus.PRECONDITION_FAILED) ;
@@ -105,8 +119,13 @@ public class ClientesControllerRest {
             @ApiResponse(responseCode = "422", description = "Unprocessable entity")
     })
     @PutMapping(value ="/empresa/{uid}")
-    public ResponseEntity<Object> updateEmpresa(@PathVariable Integer uid, @RequestBody @Valid Empresa cliente) {
+    public ResponseEntity<Object> updateEmpresa(
+            @Parameter(name="id", description = "Client id", example = "1", required = true)
+            @PathVariable @Min(1) Integer uid,
+            @RequestBody @Valid Empresa cliente) {
         if (uid == cliente.getId()) {
+            if (!clientesRepo.existsById(uid))
+                return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(), "Cliente inexistente"), HttpStatus.NOT_FOUND) ;
             return new ResponseEntity<>(clientesRepo.save(cliente), HttpStatus.ACCEPTED) ;
         } else {
             return new ResponseEntity<>(new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Id y cliente.id deben coincidir"), HttpStatus.PRECONDITION_FAILED) ;
@@ -120,9 +139,16 @@ public class ClientesControllerRest {
     })
 
     @GetMapping(value = "/evaluarPrestamo/{uid}")
-    public ResponseEntity<Object> evaluarPrestamo(@PathVariable Integer uid, @RequestParam Double monto) {
+    public ResponseEntity<Object> evaluarPrestamo(
+            @Parameter(name="id", description = "Client id", example = "1", required = true)
+            @PathVariable @Min(1) Integer uid,
+            @Parameter(name="id", description = "Amount", example = "1", required = true)
+            @RequestParam @Min(1) Double monto) {
 
         try {
+            if (!clientesRepo.existsById(uid))
+                return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(), "Cliente inexistente"), HttpStatus.NOT_FOUND) ;
+
             Optional<Cliente> opCliente = clientesRepo.findById(uid);
             Cliente cliente = opCliente.get();
             int numPrestamos = cliente.getPrestamos() != null ? cliente.getPrestamos().size() : 0;

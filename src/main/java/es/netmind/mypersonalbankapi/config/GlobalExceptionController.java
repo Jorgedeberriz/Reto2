@@ -25,10 +25,7 @@ public class GlobalExceptionController {
     public ResponseEntity<Object> handleGlobalException(GlobalException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
-    /*@ExceptionHandler(value = ProductNotfoundException.class)
-    public ResponseEntity<Object> exception(ProductNotfoundException exception) {
-        return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
-    }*/
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
