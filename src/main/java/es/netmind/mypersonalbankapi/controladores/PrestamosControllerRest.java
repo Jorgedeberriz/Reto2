@@ -41,7 +41,7 @@ public class PrestamosControllerRest {
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
     @GetMapping(value = "")
-    public ResponseEntity<List<Prestamo>> getAll(
+    public ResponseEntity<Object> getAll(
             @Parameter(name = "id", description = "Client id", example = "1", required = true)
             @PathVariable @Min(1) Integer uid) {
         try {
@@ -51,7 +51,7 @@ public class PrestamosControllerRest {
             }
             return new ResponseEntity<>(prestamosService.getAll(uid), HttpStatus.OK);
         } catch (ClienteException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(),e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -68,7 +68,7 @@ public class PrestamosControllerRest {
             @PathVariable @Min(1) Integer lid) {
         try {
             Prestamo pr = prestamosService.getOne(uid, lid);
-            if (uid == pr.getId()) {
+            if (uid == pr.getMyCliente().getId()) {
                 return new ResponseEntity<>(pr, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(
@@ -76,7 +76,7 @@ public class PrestamosControllerRest {
                         HttpStatus.PRECONDITION_FAILED);
             }
         } catch (ClienteException | PrestamoException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(),e.getMessage()), HttpStatus.NOT_FOUND);
         }
 
     }

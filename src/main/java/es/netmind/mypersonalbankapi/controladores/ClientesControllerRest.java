@@ -55,7 +55,7 @@ public class ClientesControllerRest {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(clientesService.getOne(uid));
         } catch (ClienteException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(),e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -105,7 +105,7 @@ public class ClientesControllerRest {
                 return new ResponseEntity<>(new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Id y cliente.id deben coincidir"), HttpStatus.PRECONDITION_FAILED);
             }
         } catch (ClienteException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(),e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -129,7 +129,7 @@ public class ClientesControllerRest {
                 return new ResponseEntity<>(new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Id y cliente.id deben coincidir"), HttpStatus.PRECONDITION_FAILED);
             }
         } catch (ClienteException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(),e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -155,7 +155,7 @@ public class ClientesControllerRest {
                 return new ResponseEntity<>(new StatusMessage(HttpStatus.BAD_REQUEST.value(), "NO puede conceder !! Saldo insuficiente."), HttpStatus.BAD_REQUEST);
             }
         } catch (ClienteException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(),e.getMessage()), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(new ClienteException("Oops ha habido un problema, inténtelo más tarde 😞!"), HttpStatus.INTERNAL_SERVER_ERROR);

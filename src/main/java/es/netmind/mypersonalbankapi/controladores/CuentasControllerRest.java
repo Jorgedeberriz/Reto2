@@ -1,6 +1,7 @@
 package es.netmind.mypersonalbankapi.controladores;
 
 import es.netmind.mypersonalbankapi.exceptions.ClienteException;
+import es.netmind.mypersonalbankapi.exceptions.CuentaException;
 import es.netmind.mypersonalbankapi.exceptions.PrestamoException;
 import es.netmind.mypersonalbankapi.modelos.StatusMessage;
 import es.netmind.mypersonalbankapi.modelos.cuentas.Cuenta;
@@ -40,7 +41,7 @@ public class CuentasControllerRest {
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
     @GetMapping(value = "")
-    public ResponseEntity<List<Cuenta>> getAll(
+    public ResponseEntity<Object> getAll(
             @Parameter(name = "id", description = "Client id", example = "1", required = true)
             @PathVariable @Min(1) Integer uid) {
         try {
@@ -51,7 +52,7 @@ public class CuentasControllerRest {
             return new ResponseEntity<>(cuentasService.getAll(uid), HttpStatus.OK);
 
         } catch (ClienteException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(),e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -71,17 +72,15 @@ public class CuentasControllerRest {
 
         try {
             Cuenta cu = cuentasService.getOne(uid, aid);
-            if (uid == cu.getId()) {
+            if (uid == cu.getMyCliente().getId()) {
                 return new ResponseEntity<>(cu, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(
                         new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Cuenta no pertenece al cliente"),
                         HttpStatus.PRECONDITION_FAILED);
             }
-        } catch (ClienteException  e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }   catch (PrestamoException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (ClienteException | CuentaException e) {
+            return new ResponseEntity<>(new StatusMessage(HttpStatus.NOT_FOUND.value(),e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
 
