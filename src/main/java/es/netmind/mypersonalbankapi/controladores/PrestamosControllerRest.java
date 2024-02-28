@@ -1,5 +1,7 @@
 package es.netmind.mypersonalbankapi.controladores;
 
+import es.netmind.mypersonalbankapi.exceptions.ClienteException;
+import es.netmind.mypersonalbankapi.exceptions.PrestamoException;
 import es.netmind.mypersonalbankapi.modelos.StatusMessage;
 import es.netmind.mypersonalbankapi.modelos.prestamos.Prestamo;
 import es.netmind.mypersonalbankapi.servicios.IPrestamoService;
@@ -42,12 +44,15 @@ public class PrestamosControllerRest {
     public ResponseEntity<List<Prestamo>> getAll(
             @Parameter(name = "id", description = "Client id", example = "1", required = true)
             @PathVariable @Min(1) Integer uid) {
-
-        List<Prestamo> lista  = prestamosService.getAll(uid);
-        if (lista.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        try {
+            List<Prestamo> lista = prestamosService.getAll(uid);
+            if (lista.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(prestamosService.getAll(uid), HttpStatus.OK);
+        } catch (ClienteException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return new ResponseEntity<>(prestamosService.getAll(uid), HttpStatus.OK);
     }
 
     @Operation(summary = "Get a loan by id", description = "Retorna un prestamo por ID")
@@ -61,14 +66,17 @@ public class PrestamosControllerRest {
             @PathVariable @Min(1) Integer uid,
             @Parameter(name = "id", description = "Loan id", example = "1", required = true)
             @PathVariable @Min(1) Integer lid) {
-
-        Prestamo pr = prestamosService.getOne(uid, lid);
-        if (uid == pr.getId()) {
-            return new ResponseEntity<>(pr, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(
-                    new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Prestamo no pertenece al cliente"),
-                    HttpStatus.PRECONDITION_FAILED);
+        try {
+            Prestamo pr = prestamosService.getOne(uid, lid);
+            if (uid == pr.getId()) {
+                return new ResponseEntity<>(pr, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(
+                        new StatusMessage(HttpStatus.PRECONDITION_FAILED.value(), "Prestamo no pertenece al cliente"),
+                        HttpStatus.PRECONDITION_FAILED);
+            }
+        } catch (ClienteException | PrestamoException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
 
     }
